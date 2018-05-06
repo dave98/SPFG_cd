@@ -1,0 +1,51 @@
+{% extends 'mycash/index.html' %}
+
+{% block body%}
+<div class="container">
+    <div class="row vertical-offset-100">
+        <div class="col-md-6 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign Up</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="{{ form.name.id_for_label }}" class="col-sm-2 control-label">Name</label>
+                                <div class="col-sm-10">{{ form.name }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.last_name.id_for_label }}" class="col-sm-2 control-label">Last Name</label>
+                                <div class="col-sm-10">{{ form.last_name  }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.email.id_for_label }}" class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10">{{ form.email  }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.password.id_for_label }}" class="col-sm-2 control-label">Password</label>
+                                <div class="col-sm-10">{{ form.password  }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.phone.id_for_label }}" class="col-sm-2 control-label">Phone</label>
+                                <div class="col-sm-10">{{ form.phone  }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.state.id_for_label }}" class="col-sm-2 control-label">State</label>
+                                <div class="col-sm-10">{{ form.state  }}</div>
+                            </div>
+                            <input class="btn btn-lg btn-success btn-block" type="submit" name="submit", value="SignUp">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
