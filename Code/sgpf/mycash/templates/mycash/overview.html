@@ -1,0 +1,13 @@
+{% extends 'mycash/base.html' %}
+
+{% block body %}
+    {% include "mycash/category.html" %}
+{% endblock %}
+
+{% block jquery %}
+    {% include "mycash/chart.js" %}
+{% endblock %}
+
+{% block chart %}
+    {% include "mycash/chart.html" %}
+{% endblock %}

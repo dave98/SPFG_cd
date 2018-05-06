@@ -1,0 +1,60 @@
+{% extends 'mycash/base.html' %}
+{% block title %}Income/Expense Details{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">{{ category.name }}</h1>
+
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <h2 class="text-center">Incomes</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <th scope="col">#</th>
+                        <th scope="col">Income</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Edit</th>
+                    </thead>
+                    <tbody>
+                        {% for income in category.income_set.all %}
+                            <tr>
+                                <th>{{ forloop.counter }}</th>
+                                <td>{{ income.name }}</td>
+                                <td>{{ income.amount }}</td>
+                                <td>{{ income.date }}</td>
+                                <td><a class="btn btn-info" href="{% url 'mycash:upd_income' income.id %}">Edit</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h2 class="text-center">Expenses</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <th scope="col">#</th>
+                        <th scope="col">Expense</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Edit</th>
+                    </thead>
+                    <tbody>
+                        {% for expense in category.expense_set.all %}
+                            <tr>
+                                <th>{{ forloop.counter }}</th>
+                                <td>{{ expense.name }}</td>
+                                <td>{{ expense.amount }}</td>
+                                <td>{{ expense.date }}</td>
+                                <td><a class="btn btn-info" href="{% url 'mycash:upd_expense' expense.id %}">Edit</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
