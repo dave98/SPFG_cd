@@ -21,7 +21,7 @@ class User(models.Model):
     password = models.CharField(max_length=32)
     name = models.CharField(max_length=20)                              # user name
     last_name = models.CharField(max_length=50)                         # user last name
-    email = models.CharField(max_length=50)                             # user email
+    email = models.CharField(max_length=50, unique=True)                # user email
     phone = models.CharField(max_length=12)                             # user phone optional
     state = models.BooleanField(default=True)                           # user state [delete]
 
@@ -45,11 +45,11 @@ class Category(models.Model):
 
 # Income class that will be mapped in the database as a table. [mycash_income]
 class Income(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
 
 
 # Expense class that will be mapped in the database as a table. [mycash_expense]
@@ -58,4 +58,4 @@ class Expense(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()

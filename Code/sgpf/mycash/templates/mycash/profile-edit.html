@@ -1,0 +1,45 @@
+{% extends 'mycash/base.html' %}
+{% block title %}Manage Expense{% endblock %}
+
+{% block body %}
+    <br>
+    <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-8">{{ form.name }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}" class="col-sm-2 control-label">Last Name</label>
+            <div class="col-sm-8">{{ form.last_name }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-8">{{ form.email }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.password.id_for_label }}" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-8">{{ form.password }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.phone.id_for_label }}" class="col-sm-2 control-label">Phone</label>
+            <div class="col-sm-8">{{ form.phone }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.state.id_for_label }}" class="col-sm-2 control-label">State</label>
+            <div class="col-sm-8">{{ form.state }}</div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.user_type.id_for_label }}" class="col-sm-2 control-label">Type</label>
+            <div class="col-sm-8">{{ form.user_type }}</div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                <input class="btn btn-primary pull-rigth" type="submit" name="submit", value="Save">
+            </div>
+        </div>
+    </form>
+{% endblock %}

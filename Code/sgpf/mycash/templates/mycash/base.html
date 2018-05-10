@@ -62,9 +62,10 @@
 			<div class="col-md-2">
                 <nav class="profile-menu">
                     <ul class="nav navbar vertical">
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
-                        <li><a href="{% url 'mycash:overview' %}"><i class="glyphicon glyphicon-stats"></i> Overview</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-stats"></i> Historical Data</a></li>
+						<li><a href="{% url 'mycash:profile' %}"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+                        <li><a href="{% url 'mycash:overview' %}"><i class="glyphicon glyphicon-th"></i> Overview</a></li>
+						<li><a href="{% url 'mycash:budget' %}"><i class="glyphicon glyphicon-stats"></i> Budget</a></li>
+						<li><a href="#"><i class="glyphicon glyphicon-align-justify"></i> Historical Data</a></li>
                     </ul>
                 </nav>
 			</div>
