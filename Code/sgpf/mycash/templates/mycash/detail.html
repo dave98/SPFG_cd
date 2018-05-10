@@ -2,11 +2,15 @@
 {% block title %}Income/Expense Details{% endblock %}
 
 {% block body %}
-    <h1 class="text-center">{{ category.name }}</h1>
+
+    <br><a class="btn btn-primary" href="{% url 'mycash:add_income' %}">Add Income</a>
+    <a class="btn btn-danger" href="{% url 'mycash:add_expense' %}">Add Expense</a><br>
+
+    <h1 class="text-center text-success">{{ category.name }}</h1>
 
     <div class="col-sm-12">
         <div class="col-sm-6">
-            <h2 class="text-center">Incomes</h2>
+            <h2 class="text-center text-primary"><strong>Incomes</strong></h2>
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -31,7 +35,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <h2 class="text-center">Expenses</h2>
+            <h2 class="text-center text-danger"><strong>Expenses</strong></h2>
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -48,7 +52,7 @@
                                 <td>{{ expense.name }}</td>
                                 <td>{{ expense.amount }}</td>
                                 <td>{{ expense.date }}</td>
-                                <td><a class="btn btn-info" href="{% url 'mycash:upd_expense' expense.id %}">Edit</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'mycash:upd_expense' expense.id %}">Edit</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -1,6 +1,3 @@
-    <br><a class="btn btn-primary" href="{% url 'mycash:add_income' %}">Add Income</a>
-    <a class="btn btn-danger" href="{% url 'mycash:add_expense' %}">Add Expense</a><br>
-
     <h2 align="center" class="text-success fa-2x">Categories List</h2>
 
     <div class="table-responsive">
@@ -11,7 +8,7 @@
             <th scope="col">Create</th>
         </thead>
         <tbody>
-            {% for category in all_income_categories %}
+            {% for category in all_categories %}
                 <tr>
                     <th>{{ forloop.counter }}</th>
                     <td><a href="{% url 'mycash:detail' category.id  %}">{{ category.name }}</a></td>

@@ -1,0 +1,46 @@
+{% extends 'mycash/base.html' %}
+{% block title %}Income/Expense Details{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+  	<div class="col-md-10">
+
+      <div class="panel panel-info">
+            <div class="panel-heading">
+                <h1 class="text-center"><strong>Profile</strong></h1>
+            </div>
+			<div class="panel-body">
+              		<div class="row">
+                        <div class="col-xs-12 col-sm-8">
+                            <h1 class="text-success"><strong>{{ user.name|add:" "|add:user.last_name }}</strong></h1>
+                            <h3><strong>Name: </strong> {{ user.name }} </h3>
+                            <h3><strong>Last Name: </strong> {{ user.last_name }} </h3>
+                            <h3><strong>Email: </strong> {{ user.email }} </h3>
+                            <h3><strong>Phone: </strong> {{ user.phone }} </h3>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-4 text-center">
+                                <img src="https://galaxy.esn.org/sites/default/files/cards/font-awesome_4-7-0_user_1024_0_00aeef_none.png" alt="" class="center-block img-responsive">
+                        </div><!--/col-->
+
+                        <div class="col-xs-12 col-sm-6">
+                            <h2><strong> 1000 </strong></h2>
+                            <p><small>Current Money</small></p>
+                            <a class="btn btn-primary btn-lg btn-block"> Current Money </a><br>
+                        </div><!--/col-->
+                        <div class="col-xs-12 col-sm-6">
+                            <h2><strong>Profile</strong></h2>
+                            <p><small>Edit Profile</small></p>
+                            <a class="btn btn-success btn-lg btn-block" href="{% url 'mycash:profile-edit' 1 %}"> Edit </a><br>
+                        </div><!--/col-->
+              		</div><!--/row-->
+              </div><!--/panel-body-->
+          </div><!--/panel-->
+
+
+
+    </div>
+  </div>
+</div>
+{% endblock %}

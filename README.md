@@ -16,8 +16,12 @@
     3. django
         3.1. sudo pip install django==1.9
         3.2. sudo pip3 install django==1.9
-    4. django-admin --version
-    5. project django-admin startproject            
+    4. rest framework 
+        3.1 sudo pip install djangorestframework==3.6.3
+        3.1 sudo pip3 install djangorestframework==3.6.3
+    5. django-admin --version
+    6. project django-admin startproject
+    7. pip install grip //readme         
 
 ## Postgres ##
     1. sudo pip install psycopg2

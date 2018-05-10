@@ -1,4 +1,5 @@
 from django import forms
+# from .varglobal import IdUserLogged
 from .models import Income, Expense, User, Category
 
 """
@@ -9,11 +10,16 @@ from .models import Income, Expense, User, Category
         Delete View
 """
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
-# Class UserForm, Use to Create Model User [Objects]
+
+# Class UserForm, Use to Create Model User [Objects]data_attrs=('slug',),
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
+        user_type = forms.ModelChoiceField(queryset=User.objects.filter(id=1), empty_label=None, to_field_name="user_type")
+        # phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), initial="NULL")
         fields = '__all__'
 
         widgets = {
@@ -30,12 +36,14 @@ class UserForm(forms.ModelForm):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Income
+        category = forms.ModelChoiceField(queryset=Category.objects.filter(user=1), empty_label=None, to_field_name="category")
         fields = '__all__'
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Income
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Income
-            'category': forms.SelectMultiple(attrs={'class': 'form-control'}),  # category field of Class Income
+            'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
+            'user': forms.TextInput(attrs={'class': 'form-control'}),  # amount field of Class Income
         }
 
 
@@ -43,11 +51,17 @@ class IncomeForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
+        category = forms.ModelChoiceField(queryset=Category.objects.filter(user=1), empty_label=None, to_field_name="category")
         fields = '__all__'
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Expense
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Expense
-            'category': forms.SelectMultiple(attrs={'class': 'form-control'}),  # category field of Class Expense
-            # 'category': forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="(Nothing)"),
+            'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
+            'user': forms.TextInput(attrs={'class': 'form-control'}),  # amount field of Class Income
         }
+
+
+class LoginForm(forms.Form):
+    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
