@@ -1,7 +1,10 @@
 from django.contrib import admin
 from .models import User, UserType, Category, Income, Expense
 
-# Register your models here.
+"""
+    Administrator Panel, All our measures are displayed, and we can access it and add it by:
+        https://localhost: 8000 / admin
+"""
 
 
 # Class to see User Type in the admin site.
