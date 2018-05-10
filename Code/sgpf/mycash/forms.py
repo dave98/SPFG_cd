@@ -2,13 +2,17 @@ from django import forms
 # from .varglobal import IdUserLogged
 from .models import Income, Expense, User, Category
 
+""" 
+    creation of the ModelForm forms, this is super useful to update,
+    delete and insert records in their respective models
+    
+        [CRUD] View 
+            Create View
+            Retrieve View
+            Update View
+            Delete View
 """
-    [CRUD] View 
-        Create View
-        Retrieve View
-        Update View
-        Delete View
-"""
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -22,6 +26,7 @@ class UserForm(forms.ModelForm):
         # phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), initial="NULL")
         fields = '__all__'
 
+        # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class User
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),      # last_name field of Class User
@@ -39,6 +44,7 @@ class IncomeForm(forms.ModelForm):
         category = forms.ModelChoiceField(queryset=Category.objects.filter(user=1), empty_label=None, to_field_name="category")
         fields = '__all__'
 
+        # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Income
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Income
@@ -54,6 +60,7 @@ class ExpenseForm(forms.ModelForm):
         category = forms.ModelChoiceField(queryset=Category.objects.filter(user=1), empty_label=None, to_field_name="category")
         fields = '__all__'
 
+        # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Expense
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Expense
@@ -62,6 +69,8 @@ class ExpenseForm(forms.ModelForm):
         }
 
 
+# Only form, to capture the data, through POST-GET methods
+# It does not represent a model
 class LoginForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
