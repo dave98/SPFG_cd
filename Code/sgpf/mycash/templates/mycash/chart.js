@@ -1,3 +1,9 @@
+/*
+    Javascript file. Generates the graphs with data from the database,
+    taking out the income and expenditures, shows 2 graphs, circular and linear.
+    Use Ajax to obtain the data from View.
+*/
+
 var endpoint = '/mycash/api/chart/data/'
 var defaultData = []
 var labels = [];
@@ -24,6 +30,8 @@ function setChart(){
     var ctx = document.getElementById("myChart").getContext('2d');
     var ctx2 = document.getElementById("myChart2").getContext('2d');
     var ctx3 = document.getElementById("myChart3").getContext('2d');
+
+    // Circular Chart on Income
     var myChart = new Chart(ctx2, {
         type: 'polarArea',
         data: {
@@ -64,6 +72,7 @@ function setChart(){
         }
     });
 
+    // Circular Chart on Expense
     var myChart = new Chart(ctx3, {
         type: 'polarArea',
         data: {
@@ -104,6 +113,7 @@ function setChart(){
         }
     });
 
+    // Lineal Chart on Income
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {

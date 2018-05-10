@@ -1,3 +1,5 @@
+<!-- File used in overview.html, it is a part of the overview, it shows all the categories -->
+
     <h2 align="center" class="text-success fa-2x">Categories List</h2>
 
     <div class="table-responsive">
@@ -8,6 +10,7 @@
             <th scope="col">Create</th>
         </thead>
         <tbody>
+            <!-- query from view.py | language django -->
             {% for category in all_categories %}
                 <tr>
                     <th>{{ forloop.counter }}</th>

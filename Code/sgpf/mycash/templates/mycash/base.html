@@ -1,14 +1,28 @@
+<!--
+Main template, is used to not repeat the code in all other templates
+Presents NavBar and SideBar - html base for all others
+    Links to:
+        Profile
+        Overview
+        Budget
+        Historical Data
+-->
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
 	<title>{% block title %}MyCash{% endblock %}</title>
+
 	<!-- loads path static file -->
 	{% load staticfiles %}
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Satisfy" type="text/css">
     <link rel="stylesheet" type="text/css", href="{% static 'mycash/index.css' %}">
 
+    <!-- Ajax -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
@@ -70,11 +84,13 @@
                 </nav>
 			</div>
 
-			<!-- Content -->
+			<!-- Content - Data Box -->
 			<div class="col-md-10">
+                <!-- Body -->
                 {% block body %}
                 {% endblock %}
 
+                <!-- Javascript -->
                 <script>
                     $(document).ready(function(){
                         {% block jquery %}
@@ -82,6 +98,7 @@
                     })
                 </script>
 
+                <!-- Chart -->
                 {% block chart %}
                 {% endblock %}
 			</div>
