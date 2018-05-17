@@ -1,6 +1,12 @@
 {% extends 'mycash/base.html' %}
 {% block title %}Income/Expense Details{% endblock %}
 
+<!--
+    Detailed view of income and expenses by category,
+    shows all records both expenses and income.
+    For each record we are allowed to edit this data and enter data.
+-->
+
 {% block body %}
 
     <br><a class="btn btn-primary" href="{% url 'mycash:add_income' %}">Add Income</a>
@@ -9,6 +15,8 @@
     <h1 class="text-center text-success">{{ category.name }}</h1>
 
     <div class="col-sm-12">
+
+        <!-- Income Details Table -->
         <div class="col-sm-6">
             <h2 class="text-center text-primary"><strong>Incomes</strong></h2>
             <div class="table-responsive">
@@ -34,6 +42,8 @@
                 </table>
             </div>
         </div>
+
+        <!-- Expense Details Table -->
         <div class="col-sm-6">
             <h2 class="text-center text-danger"><strong>Expenses</strong></h2>
             <div class="table-responsive">

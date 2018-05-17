@@ -12,6 +12,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 """
+    Class that communicates the templates with the objects in the system
+    Class that communicates the templates with the objects in the system, 
+    Each view what it does is redirect to its respective template, whether 
+    they are co-parameters or without these.
+    
+    
     All Views that system use in this web page
     IndexView           /mycash/                    [Index Page]
     SignInView          /mycash/sign_in             [Create User to Validate]
@@ -108,6 +114,7 @@ class ChartData(APIView):
         nd = 3
 
         db = DB()
+        # Data per day on income and expenses to be visualized visually
         incomes = db.income_amount(idUserLogged, nd)
         expenses = db.expense_amount(idUserLogged, nd)
         for inc in incomes:

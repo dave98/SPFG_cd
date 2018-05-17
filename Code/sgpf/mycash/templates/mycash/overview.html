@@ -1,13 +1,22 @@
+<!--
+    Main View once Initiated Session, resumes shown in graphics
+    Currently they are:
+        All Categories
+        Incomes / Expense Graphics
+-->
 {% extends 'mycash/base.html' %}
 
+<!-- Categories -->
 {% block body %}
     {% include "mycash/category.html" %}
 {% endblock %}
 
+<!-- Chart JS -->
 {% block jquery %}
     {% include "mycash/chart.js" %}
 {% endblock %}
 
+<!-- Charts -->
 {% block chart %}
     {% include "mycash/chart.html" %}
 {% endblock %}

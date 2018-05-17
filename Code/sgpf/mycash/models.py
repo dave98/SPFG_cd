@@ -2,6 +2,12 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 from django.db import models
 
+"""
+    Mapping of the classes described below, all these are converted into tables 
+    in the database, and in case complementary tables can be created for relationships 
+    that have.
+"""
+
 
 # UserType class that will be mapped in the database as a table. [mycash_usertype]
 class UserType(models.Model):
