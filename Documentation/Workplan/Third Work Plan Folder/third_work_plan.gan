@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Third Work Plan " company="myCash" webLink="http://" view-date="2018-05-09" view-index="0" gantt-divider-location="384" resource-divider-location="466" version="2.8.8" locale="es_PE">
+<?xml version="1.0" encoding="UTF-8"?><project name="Third Work Plan " company="myCash" webLink="http://" view-date="2018-05-08" view-index="1" gantt-divider-location="384" resource-divider-location="466" version="2.8.8" locale="es">
     <description><![CDATA[Defines the work plan through the third part of SPFG project. ]]></description>
     <view zooming-state="default:3" id="gantt-chart">
         <field id="tpd3" name="Nombre" width="228" order="0"/>
         <field id="tpd4" name="Fecha de inicio" width="62" order="1"/>
         <field id="tpd5" name="Fecha de fin" width="90" order="2"/>
-        <option id="color.recent"><![CDATA[#0000cc #ff0000 #ff3333 #000000]]></option>
+        <option id="color.recent"><![CDATA[#ff0000 #000099 #0000cc #ff3333 #000000]]></option>
     </view>
     <view id="resource-table">
         <field id="0" name="Nombre" width="293" order="0"/>
@@ -34,13 +34,15 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="33" name="Meeting M3_01" color="#ff0000" meeting="true" start="2018-05-10" duration="0" complete="100" thirdDate="2018-05-10" thirdDate-constraint="0" expand="true"/>
+        <task id="64" name="Presentation 2" color="#000099" meeting="true" start="2018-05-10" duration="0" complete="0" thirdDate="2018-05-08" thirdDate-constraint="0" expand="true"/>
+        <task id="33" name="Meeting M3_01" color="#ff0000" meeting="true" start="2018-05-15" duration="0" complete="100" thirdDate="2018-05-10" thirdDate-constraint="0" expand="true"/>
+        <task id="67" name="Emergency Meeting M3_02" color="#ff0000" meeting="true" start="2018-05-17" duration="0" complete="0" thirdDate="2018-05-17" thirdDate-constraint="0" expand="true"/>
         <task id="0" name="Test Cases" color="#8cb6ce" meeting="false" start="2018-05-10" duration="19" complete="30" thirdDate="2018-05-10" thirdDate-constraint="0" expand="true"/>
         <task id="12" name="Final Architecture" color="#000000" meeting="false" start="2018-05-14" duration="9" complete="0" thirdDate="2018-05-14" thirdDate-constraint="0" expand="true">
             <task id="20" name="Physical Architecture" color="#8cb6ce" meeting="false" start="2018-05-14" duration="4" complete="0" thirdDate="2018-05-14" thirdDate-constraint="0" expand="true"/>
             <task id="22" name="Logical Architecure" color="#8cb6ce" meeting="false" start="2018-05-18" duration="5" complete="0" thirdDate="2018-05-18" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="38" name="Exhaustive Meeting ME3_02" color="#ff0000" meeting="true" start="2018-05-24" duration="0" complete="0" thirdDate="2018-05-24" thirdDate-constraint="0" expand="true"/>
+        <task id="38" name="Exhaustive Meeting M3_04" color="#ff0000" meeting="true" start="2018-05-24" duration="0" complete="0" thirdDate="2018-05-24" thirdDate-constraint="0" expand="true"/>
         <task id="40" name="Component Diagram" color="#8cb6ce" meeting="false" start="2018-05-25" duration="4" complete="0" thirdDate="2018-05-25" thirdDate-constraint="0" expand="true"/>
         <task id="42" name="Deployment Diagram" color="#8cb6ce" meeting="false" start="2018-05-31" duration="4" complete="0" thirdDate="2018-05-31" thirdDate-constraint="0" expand="true"/>
         <task id="48" name="Meeting M3_03" color="#ff0000" meeting="true" start="2018-06-06" duration="0" complete="0" thirdDate="2018-06-06" thirdDate-constraint="0" priority="2" expand="true"/>
@@ -61,11 +63,13 @@
         <allocation task-id="48" resource-id="0" function="5" responsible="false" load="100.0"/>
         <allocation task-id="38" resource-id="0" function="5" responsible="false" load="100.0"/>
         <allocation task-id="63" resource-id="0" function="5" responsible="false" load="100.0"/>
+        <allocation task-id="64" resource-id="0" function="4" responsible="false" load="100.0"/>
         <allocation task-id="0" resource-id="1" function="4" responsible="true" load="100.0"/>
         <allocation task-id="33" resource-id="1" function="4" responsible="false" load="100.0"/>
         <allocation task-id="48" resource-id="1" function="4" responsible="false" load="100.0"/>
         <allocation task-id="38" resource-id="1" function="4" responsible="false" load="100.0"/>
         <allocation task-id="63" resource-id="1" function="4" responsible="false" load="100.0"/>
+        <allocation task-id="64" resource-id="1" function="1" responsible="true" load="100.0"/>
         <allocation task-id="0" resource-id="2" function="3" responsible="false" load="100.0"/>
         <allocation task-id="33" resource-id="2" function="3" responsible="false" load="100.0"/>
         <allocation task-id="48" resource-id="2" function="3" responsible="false" load="100.0"/>
@@ -75,8 +79,10 @@
         <allocation task-id="48" resource-id="3" function="1" responsible="true" load="100.0"/>
         <allocation task-id="38" resource-id="3" function="1" responsible="true" load="100.0"/>
         <allocation task-id="63" resource-id="3" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="64" resource-id="3" function="5" responsible="false" load="100.0"/>
         <allocation task-id="38" resource-id="4" function="2" responsible="false" load="100.0"/>
         <allocation task-id="63" resource-id="4" function="2" responsible="false" load="100.0"/>
+        <allocation task-id="64" resource-id="4" function="2" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
