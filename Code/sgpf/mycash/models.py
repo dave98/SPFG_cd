@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -9,29 +10,43 @@ from django.db import models
 """
 
 
-# UserType class that will be mapped in the database as a table. [mycash_usertype]
-class UserType(models.Model):
-    type = models.CharField(max_length=20)
-    photo = models.CharField(max_length=500)
+class PerBaseUserManager(BaseUserManager):
+    def create_user(self, email, password):
+        user = self.model(email=email)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-    def get_absolute_url(self):
-        return reverse('mycash:detail', kwargs={'pk': self.pk})
+    def create_superuser(self, email, password):
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
-    def __str__(self):
-        return self.type
 
+class MyUser(AbstractBaseUser, PermissionsMixin):
+    email = models.CharField(max_length=50, unique=True)  # user email
+    nickname = models.CharField(max_length=20)
+    name = models.CharField(max_length=30)  # user name
+    last_name = models.CharField(max_length=50)  # user last name
+    phone = models.CharField(max_length=12)  # user phone optional
+    description = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
-# User class that will be mapped in the database as a table. [mycash_user]
-class User(models.Model):
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)   # fk to pk of user type
-    password = models.CharField(max_length=32)
-    name = models.CharField(max_length=20)                              # user name
-    last_name = models.CharField(max_length=50)                         # user last name
-    email = models.CharField(max_length=50, unique=True)                # user email
-    phone = models.CharField(max_length=12)                             # user phone optional
-    state = models.BooleanField(default=True)                           # user state [delete]
+    USERNAME_FIELD = 'email'
 
-    def __str__(self):                                                  # print
+    objects = PerBaseUserManager()
+
+    def get_full_name(self):
+        cad = "{0} {1}"
+        return cad.format(self.name, self.last_name)
+
+    def get_short_name(self):
+        return self.nickname
+
+    def __str__(self):  # print
         cad = "{0} {1}, {2}"
         return cad.format(self.name, self.last_name, self.email)
 
@@ -39,7 +54,7 @@ class User(models.Model):
 # Category class that will be mapped in the database as a table. [mycash_category]
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     create = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
@@ -52,7 +67,7 @@ class Category(models.Model):
 # Income class that will be mapped in the database as a table. [mycash_income]
 class Income(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
     date = models.DateField()
@@ -61,7 +76,7 @@ class Income(models.Model):
 # Expense class that will be mapped in the database as a table. [mycash_expense]
 class Expense(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
     date = models.DateField()
