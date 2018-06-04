@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import View
 from django.views import generic
-from .varglobal import idUserLogged
-from .models import Income, Category, Expense, User
-from .forms import IncomeForm, ExpenseForm, UserForm, LoginForm
+from .models import Income, Category, Expense, MyUser
+from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm
 from .sql import DB
 
 from rest_framework.views import APIView
@@ -39,43 +39,71 @@ class IndexView(View):
         return render(request, 'mycash/index.html')
 
 
-# Create Object User to Validate
-class LoginView(View):
-    def get(self, request, *args, **kwargs):
-        form = LoginForm()
+class SignInView(View):
+    def get(self, request):
+        form = SignInForm()
         context = {'form': form}
-        return render(request, 'mycash/sign_in.html', context)
+        return render(request, 'mycash/sign-in.html', context)
 
-    def post(self, request, *args, **kwargs):
-        form = LoginForm(request.POST)
+    def post(self, request):
+        form = SignInForm(request.POST)
         if form.is_valid():
-            email = request.POST.get('email')
-            password = request.POST.get('password')
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
 
-        db = DB()
-        idUserLogged = int(db.validate_user(email,password))
+            if user is not None:
+                login(request, user)
+                request.session['id'] = user.id
+                return redirect('mycash:overview')
+            else:
+                form = SignInForm()
+                context = {'form': form, 'msg': 'Error: Email - Password Invalid'}
+                return render(request, 'mycash/sign-in.html', context)
 
-        if idUserLogged == 0:
-            return redirect('mycash:sign-in')
-        else:
-            return redirect('mycash:overview')
+
+class LogOutView(View):
+    def get(self, request):
+        logout(request)
+        request.session.flush()
+        return redirect('mycash:index')
 
 
-# Create Object User to Save in DataBase
-class UserCreate(CreateView):
-    model = User
-    form_class = UserForm
-    initial = {'phone': '----', 'state': 'True', 'user_type': 1}
+class SignUpView(View):
+    form_class = MyUserForm
+    template_name = 'mycash/sign-up.html'
 
-    template_name = 'mycash/sign_up.html'
+    # display blank form
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
 
-    def get_success_url(self):
-        return reverse('mycash:overview')
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            # cleaned (normalized) data
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user.set_password(password)
+            user.save()
+
+            user = authenticate(email=email, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    request.session['id'] = user.id
+                    return redirect('mycash:overview')
+
+        return render(request, self.template_name, {'form': form})
 
 
 class UserUpdate(UpdateView):
-    model = User
-    form_class = UserForm
+    model = MyUser
+    form_class = MyUserUpdateForm
     template_name = 'mycash/profile-edit.html'
 
     def get_success_url(self):
@@ -97,7 +125,7 @@ class BudgetView(View):
 # Class ProfileView only use to redirect and see Profile
 class ProfileView(View):
     def get(self, request):
-        return render(request, 'mycash/profile.html', {'user': User.objects.get(pk=idUserLogged)})
+        return render(request, 'mycash/profile.html', {'user': MyUser.objects.get(pk=request.session['id'])})
 
 
 # Class ChartData to see Default Data Chart
@@ -115,8 +143,8 @@ class ChartData(APIView):
 
         db = DB()
         # Data per day on income and expenses to be visualized visually
-        incomes = db.income_amount(idUserLogged, nd)
-        expenses = db.expense_amount(idUserLogged, nd)
+        incomes = db.income_amount(request.session['id'], nd)
+        expenses = db.expense_amount(request.session['id'], nd)
         for inc in incomes:
             income_label.append(str(inc[0]))
             income_amount.append(float(inc[1]))
@@ -140,7 +168,7 @@ class CategoryIndexView(generic.ListView):
     context_object_name = 'all_categories'
 
     def get_queryset(self):
-        return Category.objects.filter(user_id=idUserLogged)
+        return Category.objects.filter(user_id=1)
         # return Category.objects.all()
 
 
@@ -154,8 +182,8 @@ class CategoryDetailView(generic.DetailView):
 class IncomeCreate(CreateView):
     model = Income
     form_class = IncomeForm
-    initial = {'user': idUserLogged}
-    template_name = 'mycash/manage_income.html'
+    initial = {'user': 1}
+    template_name = 'mycash/manage-income.html'
 
     def get_success_url(self):
         return reverse('mycash:overview')
@@ -165,7 +193,7 @@ class IncomeCreate(CreateView):
 class IncomeUpdate(UpdateView):
     model = Income
     form_class = IncomeForm
-    template_name = 'mycash/manage_income.html'
+    template_name = 'mycash/manage-income.html'
 
     def get_success_url(self):
         return reverse('mycash:overview')
@@ -175,8 +203,8 @@ class IncomeUpdate(UpdateView):
 class ExpenseCreate(CreateView):
     model = Expense
     form_class = ExpenseForm
-    initial = {'user': idUserLogged}
-    template_name = 'mycash/manage_expense.html'
+    initial = {'user': 1}
+    template_name = 'mycash/manage-expense.html'
 
     def get_success_url(self):
         return reverse('mycash:overview')
@@ -186,7 +214,7 @@ class ExpenseCreate(CreateView):
 class ExpenseUpdate(UpdateView):
     model = Expense
     form_class = ExpenseForm
-    template_name = 'mycash/manage_expense.html'
+    template_name = 'mycash/manage-expense.html'
 
     def get_success_url(self):
         return reverse('mycash:overview')
