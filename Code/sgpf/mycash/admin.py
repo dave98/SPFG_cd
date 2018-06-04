@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import User, UserType, Category, Income, Expense
+from .models import Category, Income, Expense, MyUser
+from django.contrib.auth.admin import UserAdmin
 
 """
     Administrator Panel, All our measures are displayed, and we can access it and add it by:
@@ -7,14 +8,14 @@ from .models import User, UserType, Category, Income, Expense
 """
 
 
-# Class to see User Type in the admin site.
-class UserTypeAdmin(admin.ModelAdmin):
-    list_display = ('type', 'photo')
-
-
-# Class to see User in the admin site.
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('name', 'last_name', 'email', 'phone', 'state')
+class MyUserAdmin(UserAdmin):
+    fieldsets = ()
+    add_fieldsets = (
+        (None, {'fields', ('email', 'password1', 'password2'), })
+    )
+    list_display = ('email', 'nickname', 'name', 'is_active', 'is_staff',)
+    search_fields = ('nickname', 'name')
+    ordering = ('nickname',)
 
 
 # Class to see Category in the admin site
@@ -31,8 +32,7 @@ class ExpenseAdmin(admin.ModelAdmin):
     list_display = ('name', 'amount')
 
 
-admin.site.register(UserType, UserTypeAdmin)    # admin create user-type.
-admin.site.register(User, UserAdmin)            # admin create user.
+admin.site.register(MyUser, MyUserAdmin)
 admin.site.register(Category, CategoryAdmin)    # admin create category.
 admin.site.register(Income, IncomeAdmin)        # admin create income.
 admin.site.register(Expense, ExpenseAdmin)      # admin create income.

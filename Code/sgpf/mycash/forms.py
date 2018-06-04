@@ -1,6 +1,5 @@
 from django import forms
-# from .varglobal import IdUserLogged
-from .models import Income, Expense, User, Category
+from .models import Income, Expense, MyUser, Category
 
 """ 
     creation of the ModelForm forms, this is super useful to update,
@@ -18,23 +17,44 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-# Class UserForm, Use to Create Model User [Objects]data_attrs=('slug',),
-class UserForm(forms.ModelForm):
+class MyUserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
     class Meta:
-        model = User
-        user_type = forms.ModelChoiceField(queryset=User.objects.filter(id=1), empty_label=None, to_field_name="user_type")
-        # phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), initial="NULL")
-        fields = '__all__'
+        model = MyUser
+        fields = ['name', 'last_name', 'email', 'password']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class User
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),      # last_name field of Class User
+            'email': forms.TextInput(attrs={'class': 'form-control'}),          # email field of Class User
+        }
+
+
+# Class UserForm, Use to Create Model User [Objects]data_attrs=('slug',),
+class MyUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['name', 'last_name', 'nickname', 'email', 'password', 'phone']
 
         # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class User
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),      # last_name field of Class User
+            'nickname': forms.TextInput(attrs={'class': 'form-control'}),  # name field of Class User
+            'email': forms.TextInput(attrs={'class': 'form-control'}),  # email field of Class User
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),   # password field of Class User
-            'email': forms.TextInput(attrs={'class': 'form-control'}),          # email field of Class User
             'phone': forms.TextInput(attrs={'class': 'form-control'}),          # phone field of Class User
-            'state': forms.TextInput(attrs={'class': 'form-control'}),          # state field of Class User
         }
+
+
+# Only form, to capture the data, through POST-GET methods
+# It does not represent a model
+class SignInForm(forms.Form):
+    email = forms.CharField(required=True, label='email',
+                            widget=(forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'})))
+    password = forms.CharField(required=True, label='password',
+                               widget=(forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'})))
 
 
 # Class IncomeForm, Use to Create Model Income [Objects]
@@ -67,10 +87,3 @@ class ExpenseForm(forms.ModelForm):
             'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
             'user': forms.TextInput(attrs={'class': 'form-control'}),  # amount field of Class Income
         }
-
-
-# Only form, to capture the data, through POST-GET methods
-# It does not represent a model
-class LoginForm(forms.Form):
-    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))

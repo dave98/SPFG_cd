@@ -9,8 +9,8 @@
 
 {% block body %}
 
-    <br><a class="btn btn-primary" href="{% url 'mycash:add_income' %}">Add Income</a>
-    <a class="btn btn-danger" href="{% url 'mycash:add_expense' %}">Add Expense</a><br>
+    <br><a class="btn btn-primary" href="{% url 'mycash:add-income' %}">Add Income</a>
+    <a class="btn btn-danger" href="{% url 'mycash:add-expense' %}">Add Expense</a><br>
 
     <h1 class="text-center text-success">{{ category.name }}</h1>
 
@@ -35,7 +35,7 @@
                                 <td>{{ income.name }}</td>
                                 <td>{{ income.amount }}</td>
                                 <td>{{ income.date }}</td>
-                                <td><a class="btn btn-info" href="{% url 'mycash:upd_income' income.id %}">Edit</a></td>
+                                <td><a class="btn btn-info" href="{% url 'mycash:upd-income' income.id %}">Edit</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -62,7 +62,7 @@
                                 <td>{{ expense.name }}</td>
                                 <td>{{ expense.amount }}</td>
                                 <td>{{ expense.date }}</td>
-                                <td><a class="btn btn-danger" href="{% url 'mycash:upd_expense' expense.id %}">Edit</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'mycash:upd-expense' expense.id %}">Edit</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

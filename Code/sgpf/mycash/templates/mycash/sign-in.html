@@ -1,0 +1,30 @@
+{% extends 'mycash/index.html' %}
+
+<!--
+    UserForm Created in the forms, this based on ModelForm, what it does is map the
+    fields with the attributes of the class, and thus save it, update it and
+    delete it.
+        [CRUD]
+-->
+
+{% block body%}
+<div class="container">
+    <div class="row vertical-offset-100">
+        <div class="col-md-6 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign In</h3>
+                </div>
+                <div class="panel-body">
+                    <span class="text-danger small">{{ msg }}</span>
+                    <form method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        {% include 'mycash/form-template.html' %}
+                        <input class="btn btn-lg btn-success btn-block" type="submit" name="submit", value="SignIn">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,8 @@
 {% extends 'mycash/base.html' %}
-{% block title %}Manage Expense{% endblock %}
+{% block title %}Manage Income{% endblock %}
 
 <!--
-    UserForm Created in the forms, this based on ModelForm, what it does is map the
+    IncomeForm Created in the forms, this based on ModelForm, what it does is map the
     fields with the attributes of the class, and thus save it, update it and
     delete it.
         [CROUP]
@@ -13,6 +13,6 @@
     <form method="post" class="form-horizontal">
         {% csrf_token %}
         {% include 'mycash/form-template.html' %}
-        <input class="btn btn-lg btn-success btn-block" type="submit" name="submit", value="Save">
+        <input class="btn btn-lg btn-success btn-block" type="submit" name="submit", value="SignIn">
     </form>
 {% endblock %}
