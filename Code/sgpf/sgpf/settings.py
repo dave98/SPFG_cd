@@ -52,6 +52,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware',
+    'account_helper.middleware.CurrentUserMiddleware',
 ]
 
 ROOT_URLCONF = 'sgpf.urls'

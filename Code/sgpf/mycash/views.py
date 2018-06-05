@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import View
 from django.views import generic
+from django.core.urlresolvers import reverse
 from .models import Income, Category, Expense, MyUser
-from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm
+from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm, ExpenseUpdateForm, IncomeUpdateForm
 from .sql import DB
 
 from rest_framework.views import APIView
@@ -103,6 +103,7 @@ class SignUpView(View):
 
 class UserUpdate(UpdateView):
     model = MyUser
+    # fields = ('name', )
     form_class = MyUserUpdateForm
     template_name = 'mycash/profile-edit.html'
 
@@ -168,8 +169,7 @@ class CategoryIndexView(generic.ListView):
     context_object_name = 'all_categories'
 
     def get_queryset(self):
-        return Category.objects.filter(user_id=1)
-        # return Category.objects.all()
+        return Category.objects.filter(user_id=self.request.session['id'])
 
 
 # Show Income - Expense for each User[ID]
@@ -179,20 +179,35 @@ class CategoryDetailView(generic.DetailView):
 
 
 # Create Object Income to Save in DataBase
-class IncomeCreate(CreateView):
-    model = Income
+class IncomeCreate(View):
+    def get_initial(self):
+        return {'user': self.request.session['id']}
+
     form_class = IncomeForm
-    initial = {'user': 1}
     template_name = 'mycash/manage-income.html'
 
-    def get_success_url(self):
-        return reverse('mycash:overview')
+    # display blank form
+    def get(self, request):
+        form = self.form_class(request.user, None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.user, request.POST)
+
+        if form.is_valid():
+            income = form.save(commit=False)
+            income.user = request.user
+            income.save()
+            return redirect('mycash:overview')
+
+        return render(request, self.template_name, {'form': form})
 
 
 # Create Object Income to Update in DataBase
 class IncomeUpdate(UpdateView):
     model = Income
-    form_class = IncomeForm
+    form_class = IncomeUpdateForm
     template_name = 'mycash/manage-income.html'
 
     def get_success_url(self):
@@ -200,20 +215,35 @@ class IncomeUpdate(UpdateView):
 
 
 # Create Object Expense to Save in DataBase
-class ExpenseCreate(CreateView):
-    model = Expense
+class ExpenseCreate(View):
+    def get_initial(self):
+        return {'user': self.request.session['id']}
+
     form_class = ExpenseForm
-    initial = {'user': 1}
     template_name = 'mycash/manage-expense.html'
 
-    def get_success_url(self):
-        return reverse('mycash:overview')
+    # display blank form
+    def get(self, request):
+        form = self.form_class(request.user, None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.user, request.POST)
+
+        if form.is_valid():
+            expense = form.save(commit=False)
+            expense.user = request.user
+            expense.save()
+            return redirect('mycash:overview')
+
+        return render(request, self.template_name, {'form': form})
 
 
 # Create Object Income to Update in DataBase
 class ExpenseUpdate(UpdateView):
     model = Expense
-    form_class = ExpenseForm
+    form_class = ExpenseUpdateForm
     template_name = 'mycash/manage-expense.html'
 
     def get_success_url(self):
