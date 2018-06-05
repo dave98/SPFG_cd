@@ -1,5 +1,6 @@
 from django import forms
 from .models import Income, Expense, MyUser, Category
+from account_helper.middleware import get_current_session
 
 """ 
     creation of the ModelForm forms, this is super useful to update,
@@ -35,7 +36,7 @@ class MyUserForm(forms.ModelForm):
 class MyUserUpdateForm(forms.ModelForm):
     class Meta:
         model = MyUser
-        fields = ['name', 'last_name', 'nickname', 'email', 'password', 'phone']
+        fields = ['name', 'last_name', 'nickname', 'email', 'phone', 'password']
 
         # The fields present in the form
         widgets = {
@@ -43,8 +44,8 @@ class MyUserUpdateForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),      # last_name field of Class User
             'nickname': forms.TextInput(attrs={'class': 'form-control'}),  # name field of Class User
             'email': forms.TextInput(attrs={'class': 'form-control'}),  # email field of Class User
-            'password': forms.PasswordInput(attrs={'class': 'form-control'}),   # password field of Class User
             'phone': forms.TextInput(attrs={'class': 'form-control'}),          # phone field of Class User
+            'password': forms.PasswordInput(attrs={'placeholder': 'Enter Password To Update!!', 'class': 'form-control'}),  # password field of Class User
         }
 
 
@@ -61,29 +62,61 @@ class SignInForm(forms.Form):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Income
-        category = forms.ModelChoiceField(queryset=Category.objects.filter(user=1), empty_label=None, to_field_name="category")
-        fields = '__all__'
+        fields = ['name', 'amount', 'date', 'category']
 
         # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Income
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Income
             'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
-            'user': forms.TextInput(attrs={'class': 'form-control'}),  # amount field of Class Income
         }
+
+    def __init__(self, user, *args, **kwargs):
+        super(IncomeForm, self).__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.filter(user=user)
 
 
 # Class ExpenseForm, Use to Create Model Expense [Objects]
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
-        category = forms.ModelChoiceField(queryset=Category.objects.filter(user=1), empty_label=None, to_field_name="category")
-        fields = '__all__'
+        fields = ['name', 'amount', 'date', 'category']
 
         # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Expense
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Expense
             'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
-            'user': forms.TextInput(attrs={'class': 'form-control'}),  # amount field of Class Income
+        }
+
+    def __init__(self, user, *args, **kwargs):
+        super(ExpenseForm, self).__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.filter(user=user)
+
+
+# Class IncomeForm, Use to Create Model Income [Objects]
+class IncomeUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Income
+        fields = ['name', 'amount', 'date']
+
+        # The fields present in the form
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Income
+            'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Income
+            'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
+        }
+
+
+# Class ExpenseForm, Use to Create Model Expense [Objects]
+class ExpenseUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Expense
+        fields = ['name', 'amount', 'date']
+
+        # The fields present in the form
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Expense
+            'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Expense
+            'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
         }
