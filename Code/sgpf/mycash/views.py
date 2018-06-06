@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import UpdateView, DeleteView
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views import generic
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from .models import Income, Category, Expense, MyUser
-from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm, ExpenseUpdateForm, IncomeUpdateForm
+from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
+                    ExpenseUpdateForm, IncomeUpdateForm, CategoryForm
 from .sql import DB
 
 from rest_framework.views import APIView
@@ -40,9 +41,10 @@ class IndexView(View):
 
 
 class SignInView(View):
+    form = SignInForm()
+
     def get(self, request):
-        form = SignInForm()
-        context = {'form': form}
+        context = {'form': self.form}
         return render(request, 'mycash/sign-in.html', context)
 
     def post(self, request):
@@ -53,13 +55,16 @@ class SignInView(View):
             user = authenticate(email=email, password=password)
 
             if user is not None:
-                login(request, user)
-                request.session['id'] = user.id
-                return redirect('mycash:overview')
+                if user.is_active:
+                    login(request, user)
+                    request.session['id'] = user.id
+                    return redirect('mycash:overview')
+                else:
+                    context = {'form': self.form, 'msg': 'User Is Not Active!'}
             else:
-                form = SignInForm()
-                context = {'form': form, 'msg': 'Error: Email - Password Invalid'}
-                return render(request, 'mycash/sign-in.html', context)
+                context = {'form': self.form, 'msg': 'Error: Email - Password Invalid'}
+
+            return render(request, 'mycash/sign-in.html', context)
 
 
 class LogOutView(View):
@@ -248,3 +253,39 @@ class ExpenseUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('mycash:overview')
+
+
+# Create Object Expense to Save in DataBase
+class CategoryCreate(View):
+    form_class = CategoryForm
+    template_name = 'mycash/manage-category.html'
+
+    # display blank form
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.POST)
+        print("post")
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.user = request.user
+            category.save()
+            print("is valid")
+            return redirect('mycash:overview')
+
+        return render(request, self.template_name, {'form': form})
+
+
+class CategoryUpdate(UpdateView):
+    model = Category
+    template_name = 'mycash/manage-category.html'
+    form_class = CategoryForm
+    success_url = reverse_lazy('mycash:overview')
+
+
+class CategoryDelete(DeleteView):
+    model = Category
+    success_url = reverse_lazy('mycash:overview')

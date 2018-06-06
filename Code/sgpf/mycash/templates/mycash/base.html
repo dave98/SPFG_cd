@@ -18,14 +18,17 @@ Presents NavBar and SideBar - html base for all others
 	{% load staticfiles %}
 
     <!-- Boostrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'mycash/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mycash/css/jquery-ui.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'mycash/css/jquery.dataTables.min.css'  %}"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Satisfy" type="text/css">
-    <link rel="stylesheet" type="text/css", href="{% static 'mycash/index.css' %}">
 
-    <!-- Ajax -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<!-- Ajax -->
+    <script type="text/javascript" src="{% static 'mycash/js/jquery.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{% static 'mycash/js/bootstrap.min.js' %}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{% static 'mycash/js/jquery-ui.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script type="text/javascript" src="{% static 'mycash/js/jquery.dataTables.min.js' %}"></script>
 </head>
 
 <body>
@@ -97,7 +100,7 @@ Presents NavBar and SideBar - html base for all others
                         {% endblock %}
                     })
                 </script>
-
+				<hr><hr>
                 <!-- Chart -->
                 {% block chart %}
                 {% endblock %}

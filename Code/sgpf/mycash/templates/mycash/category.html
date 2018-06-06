@@ -1,23 +1,63 @@
 <!-- File used in overview.html, it is a part of the overview, it shows all the categories -->
-
     <h2 align="center" class="text-success fa-2x">Categories List</h2>
+
+    <div class="row">
+        <div class="col-lg-10">
+            <a onclick="return open_modal('{% url 'mycash:add-category' %}')" class="btn btn-primary">Add Category</a>
+        </div>
+    </div>
+    <hr><hr>
 
     <div class="table-responsive">
         <table class="table table-striped">
-        <thead>
-            <th scope="col">#</th>
-            <th scope="col">Category</th>
-            <th scope="col">Create</th>
-        </thead>
-        <tbody>
-            <!-- query from view.py | language django -->
-            {% for category in all_categories %}
-                <tr>
-                    <th>{{ forloop.counter }}</th>
-                    <td><a href="{% url 'mycash:detail' category.id  %}">{{ category.name }}</a></td>
-                    <td>{{ category.create }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <thead>
+                <th scope="col">#</th>
+                <th scope="col">Category</th>
+                <th scope="col">Create</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </thead>
+            <tbody>
+                <!-- query from view.py | language django -->
+                {% for category in all_categories %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'mycash:detail' category.id  %}">{{ category.name }}</a></td>
+                        <td>{{ category.create }}</td>
+                        <td>
+                            <a onclick="return open_modal('{% url 'mycash:upd-category' category.id %}')" class="btn">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <form action="{% url 'mycash:del-category' category.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden", name="category_id" value="{{ category.id }}">
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    <div id="popup" class="modal fade" role="dialog">
+
+    </div>
+
+    <script>
+        function open_modal(url){
+            $('#popup').load(url, function(){
+                $(this).modal('show');
+            });
+            return false;
+        }
+
+        function close_modal(){
+            $('#popup').modal('hide');
+            return false;
+        }
+    </script>

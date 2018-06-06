@@ -1,6 +1,5 @@
 from django import forms
 from .models import Income, Expense, MyUser, Category
-from account_helper.middleware import get_current_session
 
 """ 
     creation of the ModelForm forms, this is super useful to update,
@@ -119,4 +118,16 @@ class ExpenseUpdateForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Expense
             'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Expense
             'date': DateInput(attrs={'class': 'form-control'}),         # amount field of Class Income
+        }
+
+
+# Class ExpenseForm, Use to Create Model Expense [Objects]
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+
+        # The fields present in the form
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),  # name field of Class Expense
         }
