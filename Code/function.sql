@@ -24,6 +24,7 @@ begin
 	return query 
 	select 
 		to_char(exp.date, 'Day') as day,
+		sum(inc.amount) as amount
 	from mycash_expense as exp
 	where exp.user_id = id_us
 	group by exp.date
@@ -35,3 +36,4 @@ language 'plpgsql';*/
 
 -- sudo pip install django-account-helper==0.1.4 
 -- sudo pip install django-preventconcurrentlogins
+-- sudo pip install django-widget-tweaks 

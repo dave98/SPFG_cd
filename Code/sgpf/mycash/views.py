@@ -145,7 +145,7 @@ class ChartData(APIView):
         income_amount = []
         expense_amount = []
 
-        nd = 3
+        nd = 7
 
         db = DB()
         # Data per day on income and expenses to be visualized visually

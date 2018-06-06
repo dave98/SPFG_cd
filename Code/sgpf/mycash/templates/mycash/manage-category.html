@@ -8,7 +8,11 @@
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        <form role="form" action="{% url 'mycash:add-category' %}" method="post">
+        {% if category %}
+            <form role="form" action="{% url 'mycash:upd-category' category.id %}" method="post">
+        {% else %}
+            <form role="form" action="{% url 'mycash:add-category' %}" method="post">
+        {% endif %}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">x</button>
                 <h3>Category Form</h3>
