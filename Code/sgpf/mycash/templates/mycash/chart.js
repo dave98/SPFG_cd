@@ -33,20 +33,20 @@ function setChart(){
 
     // Circular Chart on Income
     var myChart = new Chart(ctx2, {
-        type: 'polarArea',
+        type: 'bar',
         data: {
             labels: income_label,
             datasets: [{
                 label: 'Incomes',
                 data: income_data,
                 backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(25, 19, 24, 0.2)'
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(25, 19, 24, 0.5)'
             ],
             borderColor: [
                 'rgba(255,99,132,1)',
@@ -81,13 +81,13 @@ function setChart(){
                 label: 'Expenses',
                 data: expense_data,
                 backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(25, 19, 24, 0.2)'
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(25, 19, 24, 0.5)'
             ],
             borderColor: [
                 'rgba(255,99,132,1)',
@@ -122,7 +122,7 @@ function setChart(){
                 label: 'Incomes',
                 data: income_data,
                 borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 borderWidth: 1
             }]
         },
