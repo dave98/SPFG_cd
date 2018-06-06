@@ -36,4 +36,3 @@ admin.site.register(MyUser, MyUserAdmin)
 admin.site.register(Category, CategoryAdmin)    # admin create category.
 admin.site.register(Income, IncomeAdmin)        # admin create income.
 admin.site.register(Expense, ExpenseAdmin)      # admin create income.
-# maldonado - verschrankung

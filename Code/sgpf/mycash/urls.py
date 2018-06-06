@@ -18,6 +18,9 @@ urlpatterns = [
     url(r'^upd-income/(?P<pk>\d+)/$', views.IncomeUpdate.as_view(), name='upd-income'),         # /mycash/upd_income/
     url(r'^add-expense/', views.ExpenseCreate.as_view(), name='add-expense'),                   # /mycash/add_expense/
     url(r'^upd-expense/(?P<pk>\d+)/$', views.ExpenseUpdate.as_view(), name='upd-expense'),      # /mycash/upd_expense/
+    url(r'^add-category/', views.CategoryCreate.as_view(), name='add-category'),                # /mycash/add_expense/
+    url(r'^upd-category/(?P<pk>[0-9]+)/$', views.CategoryUpdate.as_view(), name='upd-category'),                # /mycash/add_expense/
+    url(r'^del-category/(?P<pk>[0-9]+)/$', views.CategoryDelete.as_view(), name='del-category'),                # /mycash/add_expense/
     url(r'^chart/', views.ChartView.as_view(), name='chart'),                                   # /mycash/chart/
     url(r'^api/chart/data', views.ChartData.as_view(), name='chart-data'),                      # /mycash/api/chart/data/
 ]
