@@ -40,6 +40,11 @@ class IndexView(View):
         return render(request, 'mycash/index.html')
 
 
+# Sign In view to enter the system
+# get(): When we direct to 'mycash/sign-in.html', it shows us the form SignInForm
+# post(): When we send the form's data, it first check if the data are valid,
+# then it authenticate the email and password in the database, if the user exists,
+# then if user is active, we then login, and redirect to 'mycash:overview'
 class SignInView(View):
     form = SignInForm()
 
@@ -67,6 +72,7 @@ class SignInView(View):
             return render(request, 'mycash/sign-in.html', context)
 
 
+# The LogOutView when is called redirects to 'mycash:index'
 class LogOutView(View):
     def get(self, request):
         logout(request)
@@ -74,6 +80,12 @@ class LogOutView(View):
         return redirect('mycash:index')
 
 
+
+# The SignUpView let you register in the system
+# It has the form MyUserForm and is related to the html file 'mycash/sign-up.html'
+# When we send the form, first it check if the values area valid, then
+# it checks if the user exist in the database, if it does, then we dont create
+# the user in the database, if it doesn't we save the data of the new user.
 class SignUpView(View):
     form_class = MyUserForm
     template_name = 'mycash/sign-up.html'
@@ -107,6 +119,12 @@ class SignUpView(View):
         return render(request, self.template_name, {'form': form})
 
 
+
+
+# This class is called when we go to "mycash/profile-edit.html"
+# Update the user's data with the help of the model MyUser,
+# for this we need to fill the form MyUserUpdateForm
+# When we send the form, this redirects us to the profile view.
 class UserUpdate(UpdateView):
     model = MyUser
     # fields = ('name', )
@@ -115,6 +133,9 @@ class UserUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('mycash:profile')
+
+
+
 
 
 # Class ChartView only use to redirect and see Charts
@@ -136,6 +157,8 @@ class ProfileView(View):
 
 
 # Class ChartData to see Default Data Chart
+# Data chart based on the days of week, it shows the expenses
+# and incomes entered.
 class ChartData(APIView):
     authentication_classes = []
     permission_classes = []
@@ -149,7 +172,7 @@ class ChartData(APIView):
         nd = 7
 
         db = DB()
-        # Data per day on income and expenses to be visualized visually
+        # Data per day on income and expenses to be visualized
         incomes = db.income_day(request.session['id'], nd)
         expenses = db.expense_day(request.session['id'], nd)
         for inc in incomes:
@@ -186,6 +209,9 @@ class CategoryDetailView(generic.DetailView):
 
 
 # Create Object Income to Save in DataBase
+# The form 'IncomeForm' is displayed to enter the income data,
+# when we send the form, if the form is valid, it saves the income data
+# for the corresponding user and redirects to the overview page
 class IncomeCreate(View):
     def get_initial(self):
         return {'user': self.request.session['id']}
@@ -222,6 +248,10 @@ class IncomeUpdate(UpdateView):
 
 
 # Create Object Expense to Save in DataBase
+# When we go to the 'mycash/manage-expense.html' page,
+# it shows us the form 'ExpenseForm'. If we filled it and send
+# it, then the values sended will be validated and if it is ok,
+# the expense data will be saved in the database
 class ExpenseCreate(View):
     def get_initial(self):
         return {'user': self.request.session['id']}
@@ -257,7 +287,11 @@ class ExpenseUpdate(UpdateView):
         return reverse('mycash:overview')
 
 
-# Create Object Expense to Save in DataBase
+# Create Object Category to Save in DataBase
+# If we go to the page 'mycash/manage-category.html',
+# There will be the form 'CategoryForm' to fill the data of the new category,
+# if the form is valid and the category didn't exist,
+# it will save the new category in the database.
 class CategoryCreate(View):
     form_class = CategoryForm
     template_name = 'mycash/manage-category.html'
