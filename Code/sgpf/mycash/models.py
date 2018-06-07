@@ -87,5 +87,5 @@ class Expense(models.Model):
 class TechnicalRequest(models.Model):
     description = models.TextField(blank=True, null=True)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    state = models.BooleanField(default=True)
+    state = models.BooleanField(default=False)
     send_on = models.DateField(default=datetime.now)
