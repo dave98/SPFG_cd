@@ -5,7 +5,7 @@ from . import views
 app_name = 'mycash'
 
 urlpatterns = [
-    url(r'^$', views.WeAreView.as_view(), name='we-are'),                                        # /mycash/
+    url(r'^$', views.IndexView.as_view(), name='index'),                                        # /mycash/
     url(r'^sign-in/', views.SignInView.as_view(), name='sign-in'),                               # /mycash/sign_in/
     url(r'^sign-up/', views.SignUpView.as_view(), name='sign-up'),                              # /mycash/sign_up/
     url(r'^log-out/', views.LogOutView.as_view(), name='log-out'),

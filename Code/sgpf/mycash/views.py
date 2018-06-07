@@ -37,7 +37,7 @@ from rest_framework.response import Response
 # Main view when enter de MyCash Web Page
 class IndexView(View):
     def get(self, request):
-        return render(request, 'mycash/index.html')
+        return render(request, 'mycash/we-are.html')
 
 
 class SignInView(View):
@@ -332,8 +332,3 @@ class TechnicalRequestCreate(View):
                 return redirect('mycash:overview')
 
             return render(request, self.template_name, {'form': form})
-
-
-class WeAreView(View):
-    def get(self, request):
-        return render(request, 'mycash/we-are.html')
