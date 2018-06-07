@@ -20,7 +20,7 @@ class MyUserAdmin(UserAdmin):
 
 # Class to see Category in the admin site
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'create')
+    list_display = ('name', 'create_on')
 
 
 # Class to see Income in the admin site

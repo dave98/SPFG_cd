@@ -98,10 +98,11 @@ class SignUpView(View):
             user = authenticate(email=email, password=password)
 
             if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    request.session['id'] = user.id
-                    return redirect('mycash:overview')
+                login(request, user)
+                request.session['id'] = user.id
+                db = DB()
+                db.create_category('Other', user.id)
+                return redirect('mycash:overview')
 
         return render(request, self.template_name, {'form': form})
 
@@ -149,8 +150,8 @@ class ChartData(APIView):
 
         db = DB()
         # Data per day on income and expenses to be visualized visually
-        incomes = db.income_amount(request.session['id'], nd)
-        expenses = db.expense_amount(request.session['id'], nd)
+        incomes = db.income_day(request.session['id'], nd)
+        expenses = db.expense_day(request.session['id'], nd)
         for inc in incomes:
             income_label.append(str(inc[0]))
             income_amount.append(float(inc[1]))
@@ -268,12 +269,14 @@ class CategoryCreate(View):
     # process form data
     def post(self, request):
         form = self.form_class(request.POST)
-        print("post")
         if form.is_valid():
             category = form.save(commit=False)
             category.user = request.user
-            category.save()
-            print("is valid")
+            db = DB()
+            same = db.verify_category(category.name, request.user.id)
+
+            if not same:
+                category.save()
             return redirect('mycash:overview')
 
         return render(request, self.template_name, {'form': form})

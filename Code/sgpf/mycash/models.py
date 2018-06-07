@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.urlresolvers import reverse
+from datetime import datetime
+from django.utils import timezone
 from django.db import models
 
 """
@@ -55,7 +57,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 class Category(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    create = models.DateTimeField(auto_now_add=True)
+    create_on = models.DateTimeField(default=timezone.now)
 
     def get_absolute_url(self):
         return reverse('mycash:detail', kwargs={'pk': self.pk})
@@ -70,7 +72,7 @@ class Income(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
-    date = models.DateField()
+    date = models.DateField(default=datetime.now)
 
 
 # Expense class that will be mapped in the database as a table. [mycash_expense]
@@ -79,4 +81,4 @@ class Expense(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
-    date = models.DateField()
+    date = models.DateField(default=datetime.now)
