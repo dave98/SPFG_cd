@@ -63,11 +63,25 @@ begin
 	end if;
 end;
 $$
+language 'plpgsql';
+
+create or replace function delete_account(id_us integer)
+	returns void
+as $$ 
+declare
+begin
+	update mycash_myuser set is_active = false where id=id_us;
+end;
+$$
 language 'plpgsql';*/
 
 --select * from create_category('Others', 2);
-select * from mycash_category;
-select * from verify_category('Home',4);
+--select * from mycash_category;
+--select * from verify_category('Home',4);
+--select * from delete_account(2);
+--select id, is_active, name, nickname from mycash_myuser;
+
+--update mycash_myuser set is_active = true;
 
 -- sudo pip install django-account-helper==0.1.4 
 -- sudo pip install django-preventconcurrentlogins

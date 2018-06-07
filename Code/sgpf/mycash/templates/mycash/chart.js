@@ -7,6 +7,7 @@
 var endpoint = '/mycash/api/chart/data/'
 var defaultData = []
 var labels = [];
+var type_chart = 'bar'
 
 $.ajax({
     method: "GET",
@@ -27,13 +28,13 @@ $.ajax({
 })
 
 function setChart(){
-    var ctx = document.getElementById("myChart").getContext('2d');
+    // var ctx = document.getElementById("myChart").getContext('2d');
     var ctx2 = document.getElementById("myChart2").getContext('2d');
     var ctx3 = document.getElementById("myChart3").getContext('2d');
 
     // Circular Chart on Income
     var myChart = new Chart(ctx2, {
-        type: 'bar',
+        type: type_chart,
         data: {
             labels: income_label,
             datasets: [{
@@ -74,7 +75,7 @@ function setChart(){
 
     // Circular Chart on Expense
     var myChart = new Chart(ctx3, {
-        type: 'polarArea',
+        type: type_chart,
         data: {
             labels: expense_label,
             datasets: [{
@@ -114,7 +115,7 @@ function setChart(){
     });
 
     // Lineal Chart on Income
-    var myChart = new Chart(ctx, {
+    /*var myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: income_label,
@@ -136,5 +137,5 @@ function setChart(){
                 }]
             }
         }
-    });
+    });*/
 }

@@ -82,3 +82,10 @@ class Expense(models.Model):
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     name = models.CharField(max_length=20)
     date = models.DateField(default=datetime.now)
+
+
+class TechnicalRequest(models.Model):
+    description = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    state = models.BooleanField(default=True)
+    send_on = models.DateField(default=datetime.now)

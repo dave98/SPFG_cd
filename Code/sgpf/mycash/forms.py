@@ -1,5 +1,5 @@
 from django import forms
-from .models import Income, Expense, MyUser, Category
+from .models import Income, Expense, MyUser, Category, TechnicalRequest
 
 """ 
     creation of the ModelForm forms, this is super useful to update,
@@ -130,4 +130,15 @@ class CategoryForm(forms.ModelForm):
         # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),  # name field of Class Expense
+        }
+
+
+class TechnicalRequestForm(forms.ModelForm):
+    class Meta:
+        model = TechnicalRequest
+        fields = ['description']
+
+        # The fields present in the form
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 50, 'rows': 15}),  # name field of Class Expense
         }

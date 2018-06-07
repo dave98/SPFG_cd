@@ -6,7 +6,7 @@ from django.views import generic
 from django.core.urlresolvers import reverse, reverse_lazy
 from .models import Income, Category, Expense, MyUser
 from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
-                    ExpenseUpdateForm, IncomeUpdateForm, CategoryForm
+                    ExpenseUpdateForm, IncomeUpdateForm, CategoryForm, TechnicalRequestForm
 from .sql import DB
 
 from rest_framework.views import APIView
@@ -173,6 +173,7 @@ class ChartData(APIView):
 class CategoryIndexView(generic.ListView):
     template_name = 'mycash/overview.html'
     context_object_name = 'all_categories'
+    paginate_by = 4
 
     def get_queryset(self):
         return Category.objects.filter(user_id=self.request.session['id'])
@@ -292,3 +293,47 @@ class CategoryUpdate(UpdateView):
 class CategoryDelete(DeleteView):
     model = Category
     success_url = reverse_lazy('mycash:overview')
+
+
+class MyUserDeleteView(View):
+    def get(self, request):
+        db = DB()
+        db.delete_account(request.session['id'])
+        return redirect('mycash:log-out')
+
+
+class ExpenseDelete(DeleteView):
+    model = Expense
+    success_url = reverse_lazy('mycash:overview')
+
+
+class IncomeDelete(DeleteView):
+    model = Income
+    success_url = reverse_lazy('mycash:overview')
+
+
+class TechnicalRequestCreate(View):
+        form_class = TechnicalRequestForm
+        template_name = 'mycash/manage-technical.html'
+
+        # display blank form
+        def get(self, request):
+            form = self.form_class(None)
+            return render(request, self.template_name, {'form': form})
+
+        # process form data
+        def post(self, request):
+            form = self.form_class(request.POST)
+
+            if form.is_valid():
+                technical_request = form.save(commit=False)
+                technical_request.user = request.user
+                technical_request.save()
+                return redirect('mycash:overview')
+
+            return render(request, self.template_name, {'form': form})
+
+
+class WeAreView(View):
+    def get(self, request):
+        return render(request, 'mycash/we-are.html')

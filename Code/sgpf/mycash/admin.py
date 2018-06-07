@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Income, Expense, MyUser
+from .models import Category, Income, Expense, MyUser, TechnicalRequest
 from django.contrib.auth.admin import UserAdmin
 
 """
@@ -32,7 +32,12 @@ class ExpenseAdmin(admin.ModelAdmin):
     list_display = ('name', 'amount')
 
 
+class TechnicalRequestAdmin(admin.ModelAdmin):
+    list_display = ('description', 'user', 'state')
+
+
 admin.site.register(MyUser, MyUserAdmin)
 admin.site.register(Category, CategoryAdmin)    # admin create category.
 admin.site.register(Income, IncomeAdmin)        # admin create income.
 admin.site.register(Expense, ExpenseAdmin)      # admin create income.
+admin.site.register(TechnicalRequest, TechnicalRequestAdmin)      # admin create income.
