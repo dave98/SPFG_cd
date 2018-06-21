@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views import generic
 from django.core.urlresolvers import reverse, reverse_lazy
-from .models import Income, Category, Expense, MyUser
+from .models import Income, Category, Expense, MyUser, Goal
 from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
                     ExpenseUpdateForm, IncomeUpdateForm, CategoryForm, TechnicalRequestForm
 from .sql import DB
@@ -169,11 +169,26 @@ class ChartData(APIView):
         return Response(data)
 
 
+# List All Goal for each User   [ID]
+class GoalIndexView(generic.ListView):
+    template_name = 'mycash/goal-modal.html'
+    context_object_name = 'all_goal'
+
+    def get_queryset(self):
+        return Goal.objects.filter(user_id=self.request.session['id'])
+
+
+# Delete Goal
+class GoalDelete(DeleteView):
+    model = Goal
+    success_url = reverse_lazy('mycash:overview')
+
+
 # List All Category for each User   [ID]
 class CategoryIndexView(generic.ListView):
     template_name = 'mycash/overview.html'
     context_object_name = 'all_categories'
-    paginate_by = 4
+    paginate_by = 3
 
     def get_queryset(self):
         return Category.objects.filter(user_id=self.request.session['id'])
