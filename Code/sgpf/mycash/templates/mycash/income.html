@@ -1,0 +1,40 @@
+{% extends 'mycash/base.html' %}
+
+{% block body %}
+<h2 align="center" class="text-success fa-2x">Incomes</h2>
+
+<a href="{% url 'mycash:add-income' %}" class="btn btn-info" role="button">Add Income</a>
+<hr><hr>
+<div class="table-responsive">
+    <table class="table table-striped" >
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col">Income</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </thead>
+        <tbody>
+            {% for income in all_income %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <td>{{ income.name }}</td>
+                    <td>{{ income.amount }}</td>
+                    <td>{{ income.date }}</td>
+                    <td><a href="{% url 'mycash:upd-income' income.id %}"><i class="glyphicon glyphicon-edit"></i></a></td>
+                    <td>
+                        <form action="{% url 'mycash:del-income' income.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden", name="income_id" value="{{ income.id }}">
+                            <button type="submit" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
