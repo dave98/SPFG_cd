@@ -12,6 +12,7 @@ from django.db import models
 """
 
 
+# class controller MyUser create
 class PerBaseUserManager(BaseUserManager):
     def create_user(self, email, password):
         user = self.model(email=email)
@@ -27,6 +28,7 @@ class PerBaseUserManager(BaseUserManager):
         return user
 
 
+# MyUser class [User]
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, unique=True)  # user email
     nickname = models.CharField(max_length=20)
@@ -89,3 +91,11 @@ class TechnicalRequest(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     state = models.BooleanField(default=False)
     send_on = models.DateField(default=datetime.now)
+
+
+# Goal class
+class Goal(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
+    percentage = models.DecimalField(max_digits=4, decimal_places=2)
+    amount = models.DecimalField(max_digits=8, decimal_places=2)
