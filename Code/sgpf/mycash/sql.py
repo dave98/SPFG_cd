@@ -40,3 +40,9 @@ class DB:
         with connection.cursor() as cursor:
             cursor.execute("select * from verify_category(%s,%s)", [name, id_us])
             return cursor.fetchall()[0][0]
+
+    @staticmethod
+    def savings_per_goals(id_us):
+        with connection.cursor() as cursor:
+            cursor.execute("select * from savings_per_goals(%s)", [id_us])
+            return cursor.fetchall()[0][0]

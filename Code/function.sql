@@ -73,7 +73,30 @@ begin
 	update mycash_myuser set is_active = false where id=id_us;
 end;
 $$
-language 'plpgsql';*/
+language 'plpgsql';
+
+create or replace function savings_per_goals(id_us integer)
+	returns numeric(8,2)
+as $$ 
+declare
+	income numeric(8,2) = 0;
+	expense numeric(8,2) = 0;
+begin
+	select
+		sum(inc.amount) into income
+	from mycash_income as inc
+	where inc.user_id = id_us;
+
+	select
+		sum(exp.amount) into expense
+	from mycash_expense as exp
+	where exp.user_id = id_us;
+
+	return (income-expense);
+end;
+$$
+language 'plpgsql';
+*/
 
 --select * from create_category('Others', 2);
 --select * from mycash_category;
@@ -86,3 +109,5 @@ language 'plpgsql';*/
 -- sudo pip install django-account-helper==0.1.4 
 -- sudo pip install django-preventconcurrentlogins
 -- sudo pip install django-widget-tweaks 
+
+select * from savings_per_goals(3);

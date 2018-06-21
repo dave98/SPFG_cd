@@ -1,0 +1,55 @@
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">x</button>
+            <h3>Modal Header</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table table-striped" >
+                    <thead>
+                        <th scope="col">#</th>
+                        <th scope="col">Goal</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Progress</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </thead>
+
+                    <tbody>
+                    {% for goal in all_goal %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ goal.name }}</td>
+                            <td>{{ goal.amount }}</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:{{ goal.percentage }}%">
+                                      {{ goal.percentage }} %
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <a onclick="return open_modal('{% url 'mycash:upd-goal' goal.id %}')" class="btn">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <form action="{% url 'mycash:del-goal' goal.id %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden", name="goal_id" value="{{ goal.id }}">
+                                    <button type="submit" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </div>
+        </div>
+    </div>
+</div>

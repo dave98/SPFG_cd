@@ -7,14 +7,14 @@
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
-        {% if category %}
-            <form role="form" action="{% url 'mycash:upd-category' category.id %}" method="post">
+        {% if goal %}
+            <form role="form" action="{% url 'mycash:upd-goal' goal.id %}" method="post">
         {% else %}
-            <form role="form" action="{% url 'mycash:add-category' %}" method="post">
+            <form role="form" action="{% url 'mycash:add-goal' %}" method="post">
         {% endif %}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">x</button>
-                <h3>Category Form</h3>
+                <h3>Goal Form</h3>
             </div>
 
             <div class="modal-body">

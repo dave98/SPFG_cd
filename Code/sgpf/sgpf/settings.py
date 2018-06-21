@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'preventconcurrentlogins',
+    # 'preventconcurrentlogins',
     'widget_tweaks',
 ]
 
@@ -52,7 +52,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware',
+    # 'preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware',
     'account_helper.middleware.CurrentUserMiddleware',
 ]
 
@@ -84,8 +84,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mycash',
-        'USER': 'maldonado',
-        'PASSWORD': 'maldonado',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '',
     }
