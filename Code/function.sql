@@ -75,7 +75,7 @@ end;
 $$
 language 'plpgsql';
 
-create or replace function savings_per_goals(id_us integer)
+create or replace function savings_per_user(id_us integer)
 	returns numeric(8,2)
 as $$ 
 declare
@@ -110,4 +110,4 @@ language 'plpgsql';
 -- sudo pip install django-preventconcurrentlogins
 -- sudo pip install django-widget-tweaks 
 
-select * from savings_per_goals(3);
+select * from savings_per_user(3);

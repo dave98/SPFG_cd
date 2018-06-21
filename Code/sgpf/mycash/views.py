@@ -125,9 +125,9 @@ class ChartView(View):
 
 
 # Class BudgetView only use to redirect and see Budget
-class BudgetView(View):
+class HistoricalView(View):
     def get(self, request):
-        return render(request, 'mycash/budget.html')
+        return render(request, 'mycash/expense.html')
 
 
 # Class ProfileView only use to redirect and see Profile
@@ -177,7 +177,7 @@ class GoalView(View):
     def get(self, request):
         all_goal = Goal.objects.filter(user_id=request.session['id'])
         db = DB()
-        total = float(db.savings_per_goals(request.session['id']))
+        total = float(db.savings_per_user(request.session['id']))
 
         for goal in all_goal:
             tmp = (float(goal.percentage)*total)/100
@@ -387,3 +387,23 @@ class TechnicalRequestCreate(View):
             return redirect('mycash:overview')
 
         return render(request, self.template_name, {'form': form})
+
+
+# List All Category for each User   [ID]
+class ExpenseIndexView(generic.ListView):
+    template_name = 'mycash/expense.html'
+    context_object_name = 'all_expense'
+    paginate_by = 7
+
+    def get_queryset(self):
+        return Expense.objects.filter(user_id=self.request.session['id'])
+
+
+# List All Category for each User   [ID]
+class IncomeIndexView(generic.ListView):
+    template_name = 'mycash/income.html'
+    context_object_name = 'all_income'
+    paginate_by = 7
+
+    def get_queryset(self):
+        return Income.objects.filter(user_id=self.request.session['id'])

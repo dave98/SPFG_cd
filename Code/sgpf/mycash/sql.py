@@ -42,7 +42,7 @@ class DB:
             return cursor.fetchall()[0][0]
 
     @staticmethod
-    def savings_per_goals(id_us):
+    def savings_per_user(id_us):
         with connection.cursor() as cursor:
-            cursor.execute("select * from savings_per_goals(%s)", [id_us])
+            cursor.execute("select * from savings_per_user(%s)", [id_us])
             return cursor.fetchall()[0][0]
