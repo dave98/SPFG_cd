@@ -22,13 +22,16 @@ urlpatterns = [
 
     url(r'^add-expense/', views.ExpenseCreate.as_view(), name='add-expense'),                   # /mycash/add_expense/
     url(r'^upd-expense/(?P<pk>\d+)/$', views.ExpenseUpdate.as_view(), name='upd-expense'),      # /mycash/upd_expense/
-    url(r'^del-expense/(?P<pk>\d+)/$', views.ExpenseDelete.as_view(), name='del-expense'),      # /mycash/upd_expense/
+    url(r'^del-expense/(?P<pk>\d+)/$', views.ExpenseDelete.as_view(), name='del-expense'),      # /mycash/del_expense/
 
-    url(r'^add-category/', views.CategoryCreate.as_view(), name='add-category'),                # /mycash/add_expense/
-    url(r'^upd-category/(?P<pk>[0-9]+)/$', views.CategoryUpdate.as_view(), name='upd-category'),                # /mycash/add_expense/
-    url(r'^del-category/(?P<pk>[0-9]+)/$', views.CategoryDelete.as_view(), name='del-category'),                # /mycash/add_expense/
+    url(r'^add-category/', views.CategoryCreate.as_view(), name='add-category'),                    # /mycash/add_category/
+    url(r'^upd-category/(?P<pk>[0-9]+)/$', views.CategoryUpdate.as_view(), name='upd-category'),    # /mycash/uod_category/
+    url(r'^del-category/(?P<pk>[0-9]+)/$', views.CategoryDelete.as_view(), name='del-category'),    # /mycash/del_category/
 
-    url(r'^send-technical/', views.TechnicalRequestCreate.as_view(), name='send-technical'),                # /mycash/add_expense/
+    url(r'^send-technical/', views.TechnicalRequestCreate.as_view(), name='send-technical'),                # /mycash/send-technical/
+
+    url(r'^goal/', views.GoalIndexView.as_view(), name='goal'),                         # /mycash/goal
+    url(r'^del-goal/(?P<pk>[0-9]+)/$', views.GoalDelete.as_view(), name='del-goal'),    # /mycash/del_category/
 
     url(r'^chart/', views.ChartView.as_view(), name='chart'),                                   # /mycash/chart/
     url(r'^api/chart/data', views.ChartData.as_view(), name='chart-data'),                      # /mycash/api/chart/data/
