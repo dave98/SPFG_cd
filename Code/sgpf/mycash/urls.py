@@ -32,7 +32,9 @@ urlpatterns = [
 
     # url(r'^goal/', views.GoalIndexView.as_view(), name='goal'),                         # /mycash/goal
     url(r'^goal/', views.GoalView.as_view(), name='goal'),                              # /mycash/goal
-    url(r'^del-goal/(?P<pk>[0-9]+)/$', views.GoalDelete.as_view(), name='del-goal'),    # /mycash/del_category/
+    url(r'^add-goal/', views.GoalCreate.as_view(), name='add-goal'),                    # /mycash/add_goal/
+    url(r'^upd-goal/(?P<pk>[0-9]+)/$', views.GoalUpdate.as_view(), name='upd-goal'),    # /mycash/uod_goal/
+    url(r'^del-goal/(?P<pk>[0-9]+)/$', views.GoalDelete.as_view(), name='del-goal'),    # /mycash/del_delete/
 
     url(r'^chart/', views.ChartView.as_view(), name='chart'),                                   # /mycash/chart/
     url(r'^api/chart/data', views.ChartData.as_view(), name='chart-data'),                      # /mycash/api/chart/data/

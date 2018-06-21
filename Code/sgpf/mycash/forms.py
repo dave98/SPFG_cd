@@ -1,5 +1,5 @@
 from django import forms
-from .models import Income, Expense, MyUser, Category, TechnicalRequest
+from .models import Income, Expense, MyUser, Category, TechnicalRequest, Goal
 
 """ 
     creation of the ModelForm forms, this is super useful to update,
@@ -141,4 +141,18 @@ class TechnicalRequestForm(forms.ModelForm):
         # The fields present in the form
         widgets = {
             'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 50, 'rows': 15}),  # name field of Class Expense
+        }
+
+
+# Class ExpenseForm, Use to Create Model Expense [Objects]
+class GoalForm(forms.ModelForm):
+    class Meta:
+        model = Goal
+        fields = ['name', 'percentage', 'amount']
+
+        # The fields present in the form
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class Goal
+            'percentage': forms.TextInput(attrs={'class': 'form-control'}),     # percentage field of Class Goal
+            'amount': forms.TextInput(attrs={'class': 'form-control'}),         # amount field of Class Goal
         }

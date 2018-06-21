@@ -6,7 +6,8 @@ from django.views import generic
 from django.core.urlresolvers import reverse, reverse_lazy
 from .models import Income, Category, Expense, MyUser, Goal
 from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
-                    ExpenseUpdateForm, IncomeUpdateForm, CategoryForm, TechnicalRequestForm
+                    ExpenseUpdateForm, IncomeUpdateForm, CategoryForm, TechnicalRequestForm,\
+                    GoalForm
 from .sql import DB
 
 from rest_framework.views import APIView
@@ -171,7 +172,7 @@ class ChartData(APIView):
 
 # List All Goal for each User   [ID]
 class GoalView(View):
-    template_name = 'mycash/goal-modal.html'
+    template_name = 'mycash/goal.html'
 
     def get(self, request):
         all_goal = Goal.objects.filter(user_id=request.session['id'])
@@ -186,6 +187,35 @@ class GoalView(View):
                 goal.percentage = round((100*tmp)/float(goal.amount), 2)
 
         return render(request, self.template_name, {'all_goal': all_goal})
+
+
+# Create Object Expense to Save in DataBase
+class GoalCreate(View):
+    form_class = GoalForm
+    template_name = 'mycash/manage-goal.html'
+
+    # display blank form
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            goal = form.save(commit=False)
+            goal.user = request.user
+            goal.save()
+            return redirect('mycash:overview')
+
+        return render(request, self.template_name, {'form': form})
+
+
+class GoalUpdate(UpdateView):
+    model = Goal
+    template_name = 'mycash/manage-goal.html'
+    form_class = GoalForm
+    success_url = reverse_lazy('mycash:overview')
 
 
 # Delete Goal
@@ -338,22 +368,22 @@ class IncomeDelete(DeleteView):
 
 
 class TechnicalRequestCreate(View):
-        form_class = TechnicalRequestForm
-        template_name = 'mycash/manage-technical.html'
+    form_class = TechnicalRequestForm
+    template_name = 'mycash/manage-technical.html'
 
-        # display blank form
-        def get(self, request):
-            form = self.form_class(None)
-            return render(request, self.template_name, {'form': form})
+    # display blank form
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
 
-        # process form data
-        def post(self, request):
-            form = self.form_class(request.POST)
+    # process form data
+    def post(self, request):
+        form = self.form_class(request.POST)
 
-            if form.is_valid():
-                technical_request = form.save(commit=False)
-                technical_request.user = request.user
-                technical_request.save()
-                return redirect('mycash:overview')
+        if form.is_valid():
+            technical_request = form.save(commit=False)
+            technical_request.user = request.user
+            technical_request.save()
+            return redirect('mycash:overview')
 
-            return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form})

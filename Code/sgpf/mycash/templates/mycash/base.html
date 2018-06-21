@@ -29,6 +29,12 @@ Presents NavBar and SideBar - html base for all others
     <script type="text/javascript" src="{% static 'mycash/js/jquery-ui.js' %}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script type="text/javascript" src="{% static 'mycash/js/jquery.dataTables.min.js' %}"></script>
+
+    <style>
+    body{
+        background: #F6F6E6;
+    }
+    </style>
 </head>
 
 <body>
@@ -94,7 +100,7 @@ Presents NavBar and SideBar - html base for all others
 
 			<!-- Content - Data Box -->
 			<div class="col-md-10">
-				{% block goal %}
+				{% block button %}
                 {% endblock %}
 
 				{% block chart %}

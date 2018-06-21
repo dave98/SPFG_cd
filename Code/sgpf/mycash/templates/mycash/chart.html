@@ -3,16 +3,6 @@
     this with canvas and assigning each one its identifier - Part of Overview
 -->
 
-<div class="btn-group">
-    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Chart Type
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="{% url 'mycash:overview' %}">  Select Pie Chart</a><br>
-        <a class="dropdown-item" href="{% url 'mycash:overview' %}">  Select Bar Chart</a>
-    </div>
-</div>
-
 <div url-endpoint='{% url 'mycash:chart-data' %}'>
     <h2 class="text-center">Incomes - Expenses</h2>
     <div class="col-sm-6"><canvas id="myChart2"></canvas></div>
