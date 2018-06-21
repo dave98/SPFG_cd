@@ -6,9 +6,8 @@
 -->
 {% extends 'mycash/base.html' %}
 
-<!-- Categories -->
-{% block body %}
-    {% include "mycash/category.html" %}
+{% block goal %}
+    {% include "mycash/goal.html" %}
 {% endblock %}
 
 <!-- Chart JS -->
@@ -19,4 +18,9 @@
 <!-- Charts -->
 {% block chart %}
     {% include "mycash/chart.html" %}
+{% endblock %}
+
+<!-- Categories -->
+{% block body %}
+    {% include "mycash/category.html" %}
 {% endblock %}
