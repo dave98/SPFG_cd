@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'preventconcurrentlogins',
-    'widget_tweaks',
+    'preventconcurrentlogins'
+    #'widget_tweaks'
 ]
 
 MIDDLEWARE_CLASSES = [
