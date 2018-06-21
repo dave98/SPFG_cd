@@ -1,4 +1,3 @@
-/*
 create or replace function income_month(id_us integer, monthlimit integer)
 	returns table(month text, amount numeric(8,2))
 as $$ 
@@ -97,38 +96,3 @@ begin
 end;
 $$
 language 'plpgsql';
-*/
-
---select * from create_category('Others', 2);
---select * from mycash_category;
---select * from verify_category('Home',4);
---select * from delete_account(2);
---select id, is_active, name, nickname from mycash_myuser;
-
---update mycash_myuser set is_active = true;
-
--- sudo pip install django-account-helper==0.1.4 
--- sudo pip install django-preventconcurrentlogins
--- sudo pip install django-widget-tweaks 
-
--- select * from savings_per_user(1);
-
-create or replace function expense_day(id_us integer, daylimit integer)
-	returns table(day text, amount numeric(8,2))
-as $$ 
-declare
-begin
-	return query 
-	select 
-		to_char(exp.date, 'Day') as day,
-		sum(exp.amount) as amount
-	from mycash_expense as exp
-	where exp.user_id = id_us and exp.date - daylimit
-	group by exp.date
-	order by exp.date
-	limit daylimit;
-end;
-$$
-language 'plpgsql';
-
-select * from expense_day(1,7);
