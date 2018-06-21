@@ -1,0 +1,27 @@
+<!-- Modal -->
+
+<!-- Trigger the modal with a button -->
+<div class="row">
+    <div class="col-lg-10">
+        <a onclick="return open_goal('{% url 'mycash:goal' %}')" class="btn btn-danger">Goals</a>
+    </div>
+</div>
+<hr><hr>
+
+<div id="popup-goal" class="modal fade" role="dialog">
+
+</div>
+
+<script>
+    function open_goal(url){
+        $('#popup-goal').load(url, function(){
+            $(this).modal('show');
+        });
+        return false;
+    }
+
+    function close_goal(){
+        $('#popup-goal').modal('hide');
+        return false;
+    }
+</script>
