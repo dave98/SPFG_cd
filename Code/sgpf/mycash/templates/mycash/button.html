@@ -2,19 +2,19 @@
 
 <!-- Trigger the modal with a button -->
 <div class="btn-group">
-    <button onclick="return open_modal('{% url 'mycash:add-category' %}')" type="button" class="btn btn-success">Add Category</button>
-    <button onclick="return open_modal('{% url 'mycash:add-goal' %}')" type="button" class="btn btn-success">Add Goal</button>
-    <button onclick="return open_modal('{% url 'mycash:goal' %}')" type="button" class="btn btn-success">Show Goals</button>
+    <button onclick="return open_modal('{% url 'mycash:add-category' %}')" type="button" class="btn btn-primary">Add Category</button>
+    <button onclick="return open_modal('{% url 'mycash:add-goal' %}')" type="button" class="btn btn-primary">Add Goal</button>
+    <button onclick="return open_modal('{% url 'mycash:goal' %}')" type="button" class="btn btn-primary">Show Goals</button>
 
     <div class="btn-group">
-        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">Chart</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Chart</button>
         <ul class="dropdown-menu" role="menu">
             <li><a href="{% url 'mycash:overview' %}">Pie Chart</a></li>
             <li><a href="{% url 'mycash:overview' %}">Bar Chart</a></li>
         </ul>
     </div>
 </div>
-<hr><hr>
+<br>
 
 <div id="popup" class="modal fade" role="dialog">   </div>
 

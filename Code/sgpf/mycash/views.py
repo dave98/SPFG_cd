@@ -148,10 +148,11 @@ class ChartData(APIView):
         expense_amount = []
 
         nd = 7
+        nm = 7
 
         db = DB()
         # Data per day on income and expenses to be visualized visually
-        incomes = db.income_day(request.session['id'], nd)
+        incomes = db.income_month(request.session['id'], nm)
         expenses = db.expense_day(request.session['id'], nd)
         for inc in incomes:
             income_label.append(str(inc[0]))
@@ -231,7 +232,7 @@ class CategoryIndexView(generic.ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        return Category.objects.filter(user_id=self.request.session['id'])
+        return Category.objects.filter(user_id=self.request.session['id']).order_by('-name')
 
 
 # Show Income - Expense for each User[ID]
@@ -396,7 +397,7 @@ class ExpenseIndexView(generic.ListView):
     paginate_by = 7
 
     def get_queryset(self):
-        return Expense.objects.filter(user_id=self.request.session['id'])
+        return Expense.objects.filter(user_id=self.request.session['id']).order_by('-date')
 
 
 # List All Category for each User   [ID]
@@ -406,4 +407,4 @@ class IncomeIndexView(generic.ListView):
     paginate_by = 7
 
     def get_queryset(self):
-        return Income.objects.filter(user_id=self.request.session['id'])
+        return Income.objects.filter(user_id=self.request.session['id']).order_by('-date')

@@ -13,9 +13,9 @@ class DB:
 
     # The sum of the income per day in the last days
     @staticmethod
-    def income_day(idu, day):
+    def income_month(idu, month):
         with connection.cursor() as cursor:
-            cursor.execute("select * from income_day(%s,%s)", [idu, day])
+            cursor.execute("select * from income_month(%s,%s)", [idu, month])
             return cursor.fetchall()
 
     # The sum of the expense per day in the last days

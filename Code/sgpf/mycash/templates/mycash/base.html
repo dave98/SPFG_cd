@@ -30,11 +30,7 @@ Presents NavBar and SideBar - html base for all others
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script type="text/javascript" src="{% static 'mycash/js/jquery.dataTables.min.js' %}"></script>
 
-    <style>
-    body{
-        background: #F6F6E6;
-    }
-    </style>
+
 </head>
 
 <body>
@@ -68,10 +64,10 @@ Presents NavBar and SideBar - html base for all others
                             <ul class="nav navbar-nav navbar-right horizontal">
 								<li><a href="{% url 'mycash:log-out' %}"><i class="glyphicon glyphicon-log-out"></i>  Log Out</a></li>
 							</ul>
+                            {% block savings %} {% endblock  %}
 							<ul class="nav navbar-nav navbar-right horizontal">
 								<li><a href="{% url 'mycash:add-expense' %}"><i class="	glyphicon glyphicon-plus"></i>  Add Expense</a></li>
 							</ul>
-							{% block savings %} {% endblock  %}
                             <ul class="nav navbar-nav navbar-right horizontal">
                                 <li><a href="{% url 'mycash:add-income' %}"><i class="glyphicon glyphicon-plus"></i>  Add Income</a></li>
 							</ul>
@@ -120,7 +116,6 @@ Presents NavBar and SideBar - html base for all others
                         {% endblock %}
                     })
                 </script>
-				<hr><hr>
                 <!-- Chart -->
 			</div>
          </div>

@@ -1,17 +1,18 @@
-/*create or replace function income_day(id_us integer, daylimit integer)
-	returns table(day text, amount numeric(8,2))
+/*
+create or replace function income_month(id_us integer, monthlimit integer)
+	returns table(month text, amount numeric(8,2))
 as $$ 
 declare
 begin
 	return query 
 	select 
-		to_char(inc.date, 'Day') as day,
+		to_char(inc.date, 'Mon') as month,
 		sum(inc.amount) as amount
 	from mycash_income as inc
 	where inc.user_id = id_us
 	group by inc.date
 	order by inc.date
-	limit daylimit;
+	limit monthlimit;
 end;
 $$
 language 'plpgsql';
@@ -110,4 +111,24 @@ language 'plpgsql';
 -- sudo pip install django-preventconcurrentlogins
 -- sudo pip install django-widget-tweaks 
 
-select * from savings_per_user(3);
+-- select * from savings_per_user(1);
+
+create or replace function expense_day(id_us integer, daylimit integer)
+	returns table(day text, amount numeric(8,2))
+as $$ 
+declare
+begin
+	return query 
+	select 
+		to_char(exp.date, 'Day') as day,
+		sum(exp.amount) as amount
+	from mycash_expense as exp
+	where exp.user_id = id_us and exp.date - daylimit
+	group by exp.date
+	order by exp.date
+	limit daylimit;
+end;
+$$
+language 'plpgsql';
+
+select * from expense_day(1,7);
