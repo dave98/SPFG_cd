@@ -14,11 +14,10 @@ urlpatterns = [
     url(r'^profile-edit/(?P<pk>[0-9]+)/$', views.UserUpdate.as_view(), name='profile-edit'),    # /mycash/profile-edit
     url(r'^overview/', views.CategoryIndexView.as_view(), name='overview'),                     # /mycash/overview/
     url(r'^detail/(?P<pk>[0-9]+)/$', views.CategoryDetailView.as_view(), name='detail'),        # /mycash/income/<pk>/
-    url(r'^budget/', views.BudgetView.as_view(), name='budget'),                                # /mycash/budget/
 
     url(r'^add-income/', views.IncomeCreate.as_view(), name='add-income'),                      # /mycash/add_income/
     url(r'^upd-income/(?P<pk>\d+)/$', views.IncomeUpdate.as_view(), name='upd-income'),         # /mycash/upd_income/
-    url(r'^del-income/(?P<pk>\d+)/$', views.IncomeDelete.as_view(), name='del-income'),      # /mycash/upd_expense/
+    url(r'^del-income/(?P<pk>\d+)/$', views.IncomeDelete.as_view(), name='del-income'),         # /mycash/upd_expense/
 
     url(r'^add-expense/', views.ExpenseCreate.as_view(), name='add-expense'),                   # /mycash/add_expense/
     url(r'^upd-expense/(?P<pk>\d+)/$', views.ExpenseUpdate.as_view(), name='upd-expense'),      # /mycash/upd_expense/
@@ -36,6 +35,9 @@ urlpatterns = [
     url(r'^upd-goal/(?P<pk>[0-9]+)/$', views.GoalUpdate.as_view(), name='upd-goal'),    # /mycash/uod_goal/
     url(r'^del-goal/(?P<pk>[0-9]+)/$', views.GoalDelete.as_view(), name='del-goal'),    # /mycash/del_delete/
 
-    url(r'^chart/', views.ChartView.as_view(), name='chart'),                                   # /mycash/chart/
-    url(r'^api/chart/data', views.ChartData.as_view(), name='chart-data'),                      # /mycash/api/chart/data/
+    url(r'^expense/', views.ExpenseIndexView.as_view(), name='expense'),                # /mycash/expense/
+    url(r'^income/', views.IncomeIndexView.as_view(), name='income'),                   # /mycash/income/
+
+    url(r'^chart/', views.ChartView.as_view(), name='chart'),                            # /mycash/chart/
+    url(r'^api/chart/data', views.ChartData.as_view(), name='chart-data'),               # /mycash/api/chart/data/
 ]

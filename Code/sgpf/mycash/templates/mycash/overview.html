@@ -6,6 +6,12 @@
 -->
 {% extends 'mycash/base.html' %}
 
+{% block savings %}
+    <ul class="nav navbar-nav navbar-right horizontal">
+        <li><a href="{% url 'mycash:expense' %}"><i class="fa fa-dollar"></i> Saving: </a></li>
+    </ul>
+{% endblock %}
+
 {% block button %}
     {% include "mycash/button.html" %}
 {% endblock %}

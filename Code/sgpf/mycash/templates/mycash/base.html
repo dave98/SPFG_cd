@@ -71,6 +71,7 @@ Presents NavBar and SideBar - html base for all others
 							<ul class="nav navbar-nav navbar-right horizontal">
 								<li><a href="{% url 'mycash:add-expense' %}"><i class="	glyphicon glyphicon-plus"></i>  Add Expense</a></li>
 							</ul>
+							{% block savings %} {% endblock  %}
                             <ul class="nav navbar-nav navbar-right horizontal">
                                 <li><a href="{% url 'mycash:add-income' %}"><i class="glyphicon glyphicon-plus"></i>  Add Income</a></li>
 							</ul>
@@ -93,6 +94,8 @@ Presents NavBar and SideBar - html base for all others
                         <li><a href="{% url 'mycash:overview' %}"><i class="glyphicon glyphicon-th"></i> Overview</a></li>
 						<li><a href="#"><i class="glyphicon glyphicon-align-justify"></i> Historical Data</a></li>
                         <li><a href="{% url 'mycash:send-technical' %}"><i class="glyphicon glyphicon-envelope"></i> Technical Request</a></li>
+                        <li><a href="{% url 'mycash:expense' %}"><i class="glyphicon glyphicon-th-list"></i> Expense List</a></li>
+                        <li><a href="{% url 'mycash:income' %}"><i class="glyphicon glyphicon-th-list"></i> Income List</a></li>
                         <li><a href="{% url 'mycash:del-account' %}"><i class="glyphicon glyphicon-remove"></i> Delete Account</a></li>
                     </ul>
                 </nav>
