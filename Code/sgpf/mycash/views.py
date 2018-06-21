@@ -170,12 +170,22 @@ class ChartData(APIView):
 
 
 # List All Goal for each User   [ID]
-class GoalIndexView(generic.ListView):
+class GoalView(View):
     template_name = 'mycash/goal-modal.html'
-    context_object_name = 'all_goal'
 
-    def get_queryset(self):
-        return Goal.objects.filter(user_id=self.request.session['id'])
+    def get(self, request):
+        all_goal = Goal.objects.filter(user_id=request.session['id'])
+        db = DB()
+        total = float(db.savings_per_goals(request.session['id']))
+
+        for goal in all_goal:
+            tmp = (float(goal.percentage)*total)/100
+            if goal.amount < tmp:
+                goal.percentage = 100
+            else:
+                goal.percentage = round((100*tmp)/float(goal.amount), 2)
+
+        return render(request, self.template_name, {'all_goal': all_goal})
 
 
 # Delete Goal

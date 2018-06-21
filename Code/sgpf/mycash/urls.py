@@ -30,7 +30,8 @@ urlpatterns = [
 
     url(r'^send-technical/', views.TechnicalRequestCreate.as_view(), name='send-technical'),                # /mycash/send-technical/
 
-    url(r'^goal/', views.GoalIndexView.as_view(), name='goal'),                         # /mycash/goal
+    # url(r'^goal/', views.GoalIndexView.as_view(), name='goal'),                         # /mycash/goal
+    url(r'^goal/', views.GoalView.as_view(), name='goal'),                              # /mycash/goal
     url(r'^del-goal/(?P<pk>[0-9]+)/$', views.GoalDelete.as_view(), name='del-goal'),    # /mycash/del_category/
 
     url(r'^chart/', views.ChartView.as_view(), name='chart'),                                   # /mycash/chart/
