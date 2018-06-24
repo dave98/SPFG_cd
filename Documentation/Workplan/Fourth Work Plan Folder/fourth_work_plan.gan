@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-06-07" view-index="0" gantt-divider-location="351" resource-divider-location="345" version="2.8.8" locale="es">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="192" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="78" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="77" order="2"/>
+        <option id="color.recent"><![CDATA[#0000cc #ff0000]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nombre" width="233" order="0"/>
+        <field id="1" name="Función" width="108" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="Presentation 3" color="#0000cc" meeting="true" start="2018-06-07" duration="0" complete="0" thirdDate="2018-06-07" thirdDate-constraint="0" expand="true"/>
+        <task id="2" name="Meeting M4_01" color="#ff0000" meeting="true" start="2018-06-08" duration="0" complete="0" thirdDate="2018-06-08" thirdDate-constraint="0" expand="true"/>
+        <task id="7" name="Deployment Plan" color="#8cb6ce" meeting="false" start="2018-06-08" duration="8" complete="0" thirdDate="2018-06-08" thirdDate-constraint="0" expand="true"/>
+        <task id="19" name="Missing Use Cases" color="#8cb6ce" meeting="false" start="2018-06-08" duration="8" complete="0" thirdDate="2018-06-08" thirdDate-constraint="0" expand="true"/>
+        <task id="29" name="Meeting M4_02" color="#ff0000" meeting="true" start="2018-06-20" duration="0" complete="0" thirdDate="2018-06-05" thirdDate-constraint="0" expand="true"/>
+        <task id="17" name="Installer" color="#8cb6ce" meeting="false" start="2018-06-20" duration="8" complete="0" thirdDate="2018-06-20" thirdDate-constraint="0" expand="true"/>
+        <task id="4" name="Report of Test Cases" color="#8cb6ce" meeting="false" start="2018-06-20" duration="8" complete="0" thirdDate="2018-06-20" thirdDate-constraint="0" expand="true"/>
+        <task id="27" name="User's Manual" color="#8cb6ce" meeting="false" start="2018-06-20" duration="8" complete="0" thirdDate="2018-06-20" thirdDate-constraint="0" expand="true"/>
+        <task id="34" name="Meeting M4_03" color="#ff0000" meeting="true" start="2018-07-02" duration="0" complete="0" thirdDate="2018-07-02" thirdDate-constraint="0" expand="true"/>
+        <task id="31" name="Missing Documentation" color="#8cb6ce" meeting="false" start="2018-07-02" duration="3" complete="0" thirdDate="2018-07-02" thirdDate-constraint="0" expand="true"/>
+        <task id="36" name="Final Presentation" color="#0000cc" meeting="true" start="2018-07-05" duration="0" complete="0" thirdDate="2018-07-05" thirdDate-constraint="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Percy Maldonado Quispe" function="1" contacts="percy.maldonado@ucsp.edu.pe" phone="903156781"/>
+        <resource id="1" name="Alonso Jesús Cerpa Salas" function="3" contacts="alonso.cerpa@ucsp.edu.pe" phone="987678881"/>
+        <resource id="2" name="Jesamin Melissa Zevallos Quispe" function="4" contacts="jesamin.zevallos@ucsp.edu.pe" phone="908188191"/>
+        <resource id="3" name="José David Mamani Vilca" function="2" contacts="jose.mamani.vilca@ucsp.edu.pe" phone="983138749"/>
+        <resource id="4" name="Guillermo Enrique Calderón Quispe" function="5" contacts="gcalderon@ucsp.edu.pe" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="0" resource-id="0" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="2" resource-id="0" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="7" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="36" resource-id="0" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="34" resource-id="0" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="27" resource-id="0" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="0" resource-id="1" function="3" responsible="false" load="100.0"/>
+        <allocation task-id="2" resource-id="1" function="3" responsible="false" load="100.0"/>
+        <allocation task-id="19" resource-id="1" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="1" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="36" resource-id="1" function="3" responsible="false" load="100.0"/>
+        <allocation task-id="34" resource-id="1" function="3" responsible="false" load="100.0"/>
+        <allocation task-id="4" resource-id="2" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="2" function="4" responsible="false" load="100.0"/>
+        <allocation task-id="2" resource-id="2" function="4" responsible="false" load="100.0"/>
+        <allocation task-id="36" resource-id="2" function="4" responsible="false" load="100.0"/>
+        <allocation task-id="31" resource-id="2" function="4" responsible="false" load="100.0"/>
+        <allocation task-id="34" resource-id="2" function="4" responsible="false" load="100.0"/>
+        <allocation task-id="0" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="2" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="7" resource-id="3" function="2" responsible="false" load="100.0"/>
+        <allocation task-id="36" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="31" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="27" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="4" function="5" responsible="false" load="100.0"/>
+        <allocation task-id="36" resource-id="4" function="5" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+    <roles>
+        <role id="1" name="Designer"/>
+        <role id="2" name="Project Manager"/>
+        <role id="3" name="Programmer"/>
+        <role id="4" name="Analyst"/>
+        <role id="5" name="Client"/>
+    </roles>
+</project>
