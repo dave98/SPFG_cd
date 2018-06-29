@@ -30,6 +30,17 @@ class MyUserForm(forms.ModelForm):
             'email': forms.TextInput(attrs={'class': 'form-control'}),          # email field of Class User
         }
 
+    """ def clean_email(self):
+        email = self.cleaned_data.get('email')
+        email_base, provider = email.split('@')
+        domain, extension = provider.split('.')
+
+        if not domain == 'mycash':
+            raise forms.ValidationError("Please make sure you use your mycash email.")
+        if not extension == "com":
+            raise forms.ValidationError("Please use a valid .com in email address.")
+        return email """
+
 
 # Class UserForm, Use to Create Model User [Objects]data_attrs=('slug',),
 class MyUserUpdateForm(forms.ModelForm):
