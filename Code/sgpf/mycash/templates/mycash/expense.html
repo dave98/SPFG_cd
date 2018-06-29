@@ -2,9 +2,11 @@
 
 {% block body %}
 <h2 align="center" class="text-success fa-2x">Expenses</h2>
-
-<a href="{% url 'mycash:add-expense' %}" class="btn btn-info" role="button">Add Expense</a>
+<a href="{% url 'mycash:add-expense' %}" class="btn btn-primary" role="button">Add Expense</a>
 <br><br>
+
+{% include "mycash/search.html" %}
+
 <div class="table-responsive">
     <table class="table table-striped" >
         <thead>
@@ -50,7 +52,7 @@
         {% if page_obj.number == i %}
             <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
         {% else %}
-            <li><a href="?page={{ i }}">{{ i }}</a></li>
+            <li><a href="?page={{ i }}&name={{ request.GET.name }}&date={{ request.GET.date }}">{{ i }}</a></li>
         {% endif %}
     {% endfor %}
 
