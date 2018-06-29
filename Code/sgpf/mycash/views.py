@@ -3,6 +3,7 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views import generic
+from django.db.models import Q
 from django.core.urlresolvers import reverse, reverse_lazy
 from .models import Income, Category, Expense, MyUser, Goal
 from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
@@ -81,7 +82,6 @@ class LogOutView(View):
         return redirect('mycash:index')
 
 
-
 # The SignUpView let you register in the system
 # It has the form MyUserForm and is related to the html file 'mycash/sign-up.html'
 # When we send the form, first it check if the values area valid, then
@@ -120,8 +120,6 @@ class SignUpView(View):
         return render(request, self.template_name, {'form': form})
 
 
-
-
 # This class is called when we go to "mycash/profile-edit.html"
 # Update the user's data with the help of the model MyUser,
 # for this we need to fill the form MyUserUpdateForm
@@ -134,9 +132,6 @@ class UserUpdate(UpdateView):
 
     def get_success_url(self):
         return reverse('mycash:profile')
-
-
-
 
 
 # Class ChartView only use to redirect and see Charts
@@ -289,7 +284,7 @@ class IncomeCreate(View):
             income = form.save(commit=False)
             income.user = request.user
             income.save()
-            return redirect('mycash:overview')
+            return redirect('mycash:income')
 
         return render(request, self.template_name, {'form': form})
 
@@ -301,7 +296,12 @@ class IncomeUpdate(UpdateView):
     template_name = 'mycash/manage-income.html'
 
     def get_success_url(self):
-        return reverse('mycash:overview')
+        return reverse('mycash:income')
+
+
+class IncomeDelete(DeleteView):
+    model = Income
+    success_url = reverse_lazy('mycash:income')
 
 
 # Create Object Expense to Save in DataBase
@@ -329,7 +329,7 @@ class ExpenseCreate(View):
             expense = form.save(commit=False)
             expense.user = request.user
             expense.save()
-            return redirect('mycash:overview')
+            return redirect('mycash:expense')
 
         return render(request, self.template_name, {'form': form})
 
@@ -341,7 +341,12 @@ class ExpenseUpdate(UpdateView):
     template_name = 'mycash/manage-expense.html'
 
     def get_success_url(self):
-        return reverse('mycash:overview')
+        return reverse('mycash:expense')
+
+
+class ExpenseDelete(DeleteView):
+    model = Expense
+    success_url = reverse_lazy('mycash:expense')
 
 
 # Create Object Category to Save in DataBase
@@ -393,16 +398,6 @@ class MyUserDeleteView(View):
         return redirect('mycash:log-out')
 
 
-class ExpenseDelete(DeleteView):
-    model = Expense
-    success_url = reverse_lazy('mycash:overview')
-
-
-class IncomeDelete(DeleteView):
-    model = Income
-    success_url = reverse_lazy('mycash:overview')
-
-
 class TechnicalRequestCreate(View):
     form_class = TechnicalRequestForm
     template_name = 'mycash/manage-technical.html'
@@ -425,6 +420,7 @@ class TechnicalRequestCreate(View):
         return render(request, self.template_name, {'form': form})
 
 
+"""
 # List All Category for each User   [ID]
 class ExpenseIndexView(generic.ListView):
     template_name = 'mycash/expense.html'
@@ -432,6 +428,32 @@ class ExpenseIndexView(generic.ListView):
     paginate_by = 7
 
     def get_queryset(self):
+        return Expense.objects.filter(user_id=self.request.session['id']).order_by('-date')"""
+
+
+class ExpenseIndexView(generic.ListView):
+    template_name = "mycash/expense.html"
+    context_object_name = 'all_expense'
+    paginate_by = 7
+
+    def get_queryset(self):
+        qname = self.request.GET.get("name")
+        qdate = self.request.GET.get("date")
+        if qname and qdate:
+            return Expense.objects.filter(
+                Q(name__icontains=qname),
+                Q(date__icontains=qdate),
+            ).order_by('name')
+        elif qname:
+            return Expense.objects.filter(
+                Q(name__icontains=qname)
+            ).order_by('-date')
+
+        elif qdate:
+            return Expense.objects.filter(
+                Q(date__icontains=qdate)
+            ).order_by('name')
+
         return Expense.objects.filter(user_id=self.request.session['id']).order_by('-date')
 
 
@@ -442,4 +464,21 @@ class IncomeIndexView(generic.ListView):
     paginate_by = 7
 
     def get_queryset(self):
+        qname = self.request.GET.get("name")
+        qdate = self.request.GET.get("date")
+        if qname and qdate:
+            return Income.objects.filter(
+                Q(name__icontains=qname),
+                Q(date__icontains=qdate),
+            ).order_by('name')
+        elif qname:
+            return Income.objects.filter(
+                Q(name__icontains=qname)
+            ).order_by('-date')
+
+        elif qdate:
+            return Income.objects.filter(
+                Q(date__icontains=qdate)
+            ).order_by('name')
+
         return Income.objects.filter(user_id=self.request.session['id']).order_by('-date')
