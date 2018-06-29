@@ -1,17 +1,18 @@
+/*
 create or replace function income_month(id_us integer, monthlimit integer)
 	returns table(month text, amount numeric(8,2))
 as $$ 
 declare
+	tmp date = current_date-(monthlimit::text || ' month')::interval;	
 begin
-	return query 
+	return query 	
 	select 
 		to_char(inc.date, 'Mon') as month,
 		sum(inc.amount) as amount
 	from mycash_income as inc
-	where inc.user_id = id_us
-	group by inc.date
-	order by inc.date
-	limit monthlimit;
+	where inc.user_id = id_us and inc.date >= tmp
+	group by month
+	order by month;
 end;
 $$
 language 'plpgsql';
@@ -26,10 +27,9 @@ begin
 		to_char(exp.date, 'Day') as day,
 		sum(exp.amount) as amount
 	from mycash_expense as exp
-	where exp.user_id = id_us
+	where exp.user_id = id_us and current_date-exp.date <= daylimit
 	group by exp.date
-	order by exp.date
-	limit daylimit;
+	order by exp.date;
 end;
 $$
 language 'plpgsql';
@@ -96,3 +96,4 @@ begin
 end;
 $$
 language 'plpgsql';
+*/
