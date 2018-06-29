@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.validators import MinValueValidator, RegexValidator
 from django.core.urlresolvers import reverse
 from datetime import datetime
 from django.utils import timezone
@@ -31,10 +32,19 @@ class PerBaseUserManager(BaseUserManager):
 # MyUser class [User]
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, unique=True)  # user email
-    nickname = models.CharField(max_length=20)
-    name = models.CharField(max_length=30)  # user name
-    last_name = models.CharField(max_length=50)  # user last name
-    phone = models.CharField(max_length=12)  # user phone optional
+
+    nickname = models.CharField(max_length=20, validators=[
+        RegexValidator(regex='^[\w\s]*$', message='Nickname must be Alphanumeric', code='invalid_nickname')])
+
+    name = models.CharField(max_length=30, validators=[
+        RegexValidator(regex='^[a-zA-Z\s]*$', message='Name must be Alphabetic', code='invalid_name')])
+
+    last_name = models.CharField(max_length=50, validators=[
+        RegexValidator(regex='^[a-zA-Z\s]*$', message='Name must be Alphabetic', code='invalid_last_name')])
+
+    phone = models.CharField(max_length=12, validators=[
+        RegexValidator(regex='^[0-9]*$', message='Nickname must be Numeric', code='invalid_phone')])        # user phone
+
     description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -57,7 +67,8 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
 # Category class that will be mapped in the database as a table. [mycash_category]
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=30, validators=[
+        RegexValidator(regex='^[a-zA-Z]*$', message='Name must be Alphabetic', code='invalid_name')])
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     create_on = models.DateTimeField(default=timezone.now)
 
@@ -72,8 +83,10 @@ class Category(models.Model):
 class Income(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
-    name = models.CharField(max_length=20)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.001)])
+    name = models.CharField(max_length=20, validators=[
+        RegexValidator(regex='^[\w\s]*$', message='Name must be Alphanumeric', code='invalid_name'),
+    ])
     date = models.DateField(default=datetime.now)
 
 
@@ -81,8 +94,10 @@ class Income(models.Model):
 class Expense(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
-    name = models.CharField(max_length=20)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.001)])
+    name = models.CharField(max_length=20, validators=[
+        RegexValidator(regex='^[\w\s]*$', message='Name must be Alphanumeric', code='invalid_name'),
+    ])
     date = models.DateField(default=datetime.now)
 
 
@@ -96,6 +111,8 @@ class TechnicalRequest(models.Model):
 # Goal class
 class Goal(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
-    percentage = models.DecimalField(max_digits=4, decimal_places=2)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    name = models.CharField(max_length=20, validators=[
+        RegexValidator(regex='^[\w\s]*$', message='Name must be Alphanumeric', code='invalid_name'),
+    ])
+    percentage = models.DecimalField(max_digits=4, decimal_places=2, validators=[MinValueValidator(0.001)])
+    amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.001)])
