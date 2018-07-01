@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCash Report</title>
+    <style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th{
+        background-color: #B3BDBF;
+        color: black;
+    }
+
+    body {
+        font-weight: 200;
+        font-size: 14px;
+    }
+    .header {
+        font-size: 20px;
+        font-weight: 100;
+        text-align: center;
+        color: #007cae;
+    }
+    .title {
+        font-size: 22px;
+        font-weight: 100;
+        /* text-align: right;*/
+        padding: 10px 20px 0px 20px;
+    }
+    .title span {
+        color: #007cae;
+    }
+
+    .sub-title h1 {
+        color: #007cae;
+    }
+
+    .details {
+        padding: 10px 20px 0px 20px;
+        text-align: left !important;
+        /*margin-left: 40%;*/
+    }
+    .hrItem {
+        border: none;
+        height: 1px;
+        color: #333;
+        background-color: #fff; /* Modern Browsers */
+    }
+    </style>
+</head>
+<body>
+    <div class='wrapper'>
+        <div class='header'>
+            <h1 class='title'>MyCash</h1>
+        </div>
+    </div>
+    <div class='details'>
+        Name: {{ user.name }} <br/>
+        Last Name: {{ user.last_name }} <br/>
+        Email : {{ user.email }} <br>
+        Savings:  {{ savings }} <br/>
+        Date: {{ date }}
+        <hr class='hrItem' />
+    </div>
+
+    <div class="sub-title">
+        <h1>Incomes</h1>
+    </div>
+
+    <div style="overflow-x:auto;">
+        <table class="table" >
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Income</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+            </tr>
+            {% for income in all_income %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ income.name }}</td>
+                    <td>{{ income.amount }}</td>
+                    <td>{{ income.date }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="sub-title">
+        <h1>Expenses</h1>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="table">
+            <thead>
+                <th scope="col">#</th>
+                <th scope="col">Expense</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+            </thead>
+            <tbody>
+                {% for expense in all_expense %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

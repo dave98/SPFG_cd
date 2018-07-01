@@ -1,6 +1,6 @@
 <!-- File used in overview.html, it is a part of the overview, it shows all the categories -->
 
-<h2 align="center" class="text-success fa-2x">Categories List</h2>
+<h3 align="center" class="text-success fa-2x">Categories List</h3>
 
 <div class="table-responsive">
     <table class="table table-striped" >
@@ -27,7 +27,7 @@
                         <form action="{% url 'mycash:del-category' category.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
                             <input type="hidden", name="category_id" value="{{ category.id }}">
-                            <button type="submit" class="btn btn-default btn-sm">
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </form>

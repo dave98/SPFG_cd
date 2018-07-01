@@ -9,23 +9,16 @@
 -->
 
 {% block body %}
-<br><br><hr>
-<div class="container">
-    <div class="row vertical-offset-100">
-        <div class="col-md-9 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Technical Request</h3>
-                </div>
-                <div class="panel-body">
-                    <form method="post" class="form-horizontal">
-                        {% csrf_token %}
-                        {% include 'mycash/form-template.html' %}
-                        <input class="btn btn-lg btn-success btn-block" type="submit" name="submit", value="Send">
-                    </form>
-                </div>
-            </div>
-        </div>
+<div class="col-sm-12">
+    <div class="login-form">
+        <form method="post">
+            <h4 class="modal-title">Manage Expense</h4>
+
+            {% csrf_token %}
+            {% include 'mycash/form-template.html' %}
+
+            <input type="submit" class="btn btn-success btn-block btn-lg" value="Send">
+        </form>
     </div>
 </div>
 {% endblock %}

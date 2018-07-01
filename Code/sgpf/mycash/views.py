@@ -2,17 +2,22 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import UpdateView, DeleteView
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from django.http import HttpResponse
 from django.views import generic
-from django.db.models import Q
+from django.db.models import Sum, Q
+from .utils import render_to_pdf
+
 from django.core.urlresolvers import reverse, reverse_lazy
 from .models import Income, Category, Expense, MyUser, Goal
 from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
                     ExpenseUpdateForm, IncomeUpdateForm, CategoryForm, TechnicalRequestForm,\
                     GoalForm
 from .sql import DB
+from datetime import datetime
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.template.loader import get_template
 
 """
     Class that communicates the templates with the objects in the system
@@ -103,7 +108,7 @@ class SignUpView(View):
         if form.is_valid():
             user = form.save(commit=False)
             # cleaned (normalized) data
-            email = form.cleaned_data['email']
+            email = form.clean_email()
             password = form.cleaned_data['password']
             user.set_password(password)
             user.save()
@@ -113,14 +118,15 @@ class SignUpView(View):
             if user is not None:
                 login(request, user)
                 request.session['id'] = user.id
-                db = DB()
-                db.create_category('Other', user.id)
+                Category.create('Work', user).save()
+                Category.create('Home', user).save()
+                Category.create('Furniture', user).save()
                 return redirect('mycash:overview')
 
         return render(request, self.template_name, {'form': form})
 
 
-# This class is called when we go to "mycash/profile-edit.html"
+# This class is called when we go to "mycash/manage-user.html"
 # Update the user's data with the help of the model MyUser,
 # for this we need to fill the form MyUserUpdateForm
 # When we send the form, this redirects us to the profile view.
@@ -128,7 +134,7 @@ class UserUpdate(UpdateView):
     model = MyUser
     # fields = ('name', )
     form_class = MyUserUpdateForm
-    template_name = 'mycash/profile-edit.html'
+    template_name = 'mycash/manage-user.html'
 
     def get_success_url(self):
         return reverse('mycash:profile')
@@ -202,11 +208,11 @@ class GoalView(View):
         for goal in all_goal:
             tmp = (float(goal.percentage)*total)/100
             if goal.amount < tmp:
-                goal.percentage = 100
+                goal.adv_percentage = 100
             else:
-                goal.percentage = round((100*tmp)/float(goal.amount), 2)
+                goal.adv_percentage = round((100*tmp)/float(goal.amount), 2)
 
-        return render(request, self.template_name, {'all_goal': all_goal})
+        return render(request, self.template_name, {'all_goal': all_goal, 'savings': total})
 
 
 # Create Object Expense to Save in DataBase
@@ -248,10 +254,18 @@ class GoalDelete(DeleteView):
 class CategoryIndexView(generic.ListView):
     template_name = 'mycash/overview.html'
     context_object_name = 'all_categories'
-    paginate_by = 3
+    paginate_by = 2
 
     def get_queryset(self):
         return Category.objects.filter(user_id=self.request.session['id']).order_by('-name')
+
+    def get_context_data(self, **kwargs):
+        db = DB()
+        total = float(db.savings_per_user(self.request.session['id']))
+
+        context = super(CategoryIndexView, self).get_context_data(**kwargs)
+        context['savings'] = total
+        return context
 
 
 # Show Income - Expense for each User[ID]
@@ -369,11 +383,11 @@ class CategoryCreate(View):
         if form.is_valid():
             category = form.save(commit=False)
             category.user = request.user
-            db = DB()
-            same = db.verify_category(category.name, request.user.id)
+            cnt = Category.objects.filter(user_id=request.user.id, name=category.name).count()
 
-            if not same:
+            if cnt == 0:
                 category.save()
+
             return redirect('mycash:overview')
 
         return render(request, self.template_name, {'form': form})
@@ -420,65 +434,104 @@ class TechnicalRequestCreate(View):
         return render(request, self.template_name, {'form': form})
 
 
-"""
-# List All Category for each User   [ID]
-class ExpenseIndexView(generic.ListView):
-    template_name = 'mycash/expense.html'
-    context_object_name = 'all_expense'
-    paginate_by = 7
-
-    def get_queryset(self):
-        return Expense.objects.filter(user_id=self.request.session['id']).order_by('-date')"""
-
-
 class ExpenseIndexView(generic.ListView):
     template_name = "mycash/expense.html"
     context_object_name = 'all_expense'
-    paginate_by = 7
+    paginate_by = 6
 
     def get_queryset(self):
         qname = self.request.GET.get("name")
         qdate = self.request.GET.get("date")
+        us_id = self.request.session['id']
         if qname and qdate:
             return Expense.objects.filter(
                 Q(name__icontains=qname),
                 Q(date__icontains=qdate),
+                user_id=us_id,
             ).order_by('name')
         elif qname:
             return Expense.objects.filter(
-                Q(name__icontains=qname)
+                Q(name__icontains=qname),
+                user_id=us_id,
             ).order_by('-date')
 
         elif qdate:
             return Expense.objects.filter(
-                Q(date__icontains=qdate)
+                Q(date__icontains=qdate),
+                user_id=us_id,
             ).order_by('name')
 
-        return Expense.objects.filter(user_id=self.request.session['id']).order_by('-date')
+        return Expense.objects.filter(user_id=us_id).order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        us_id = self.request.session['id']
+        context = super(ExpenseIndexView, self).get_context_data(**kwargs)
+        context['texpense'] = Expense.objects.filter(user_id=us_id).aggregate(Sum('amount'))
+        return context
 
 
 # List All Category for each User   [ID]
 class IncomeIndexView(generic.ListView):
     template_name = 'mycash/income.html'
     context_object_name = 'all_income'
-    paginate_by = 7
+    paginate_by = 6
 
     def get_queryset(self):
         qname = self.request.GET.get("name")
         qdate = self.request.GET.get("date")
+        us_id = self.request.session['id']
         if qname and qdate:
             return Income.objects.filter(
                 Q(name__icontains=qname),
                 Q(date__icontains=qdate),
+                user_id=us_id,
             ).order_by('name')
         elif qname:
             return Income.objects.filter(
-                Q(name__icontains=qname)
+                Q(name__icontains=qname),
+                user_id=us_id,
             ).order_by('-date')
 
         elif qdate:
             return Income.objects.filter(
-                Q(date__icontains=qdate)
+                Q(date__icontains=qdate),
+                user_id=us_id,
             ).order_by('name')
 
-        return Income.objects.filter(user_id=self.request.session['id']).order_by('-date')
+        return Income.objects.filter(user_id=us_id).order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        us_id = self.request.session['id']
+        context = super(IncomeIndexView, self).get_context_data(**kwargs)
+        context['tincome'] = Income.objects.filter(user_id=us_id).aggregate(Sum('amount'))
+        return context
+
+
+class GeneratePDF(View):
+    def get(self, request, *args, **kwargs):
+        us_id = self.request.session['id']
+        all_income = Income.objects.filter(user_id=us_id).order_by('-date')
+        all_expense = Expense.objects.filter(user_id=us_id).order_by('-date')
+        user = MyUser.objects.get(pk=request.session['id'])
+        db = DB()
+        savings = float(db.savings_per_user(request.session['id']))
+
+        context = {
+            'all_income': all_income,
+            'all_expense': all_expense,
+            'user': user,
+            'date': datetime.now(),
+            'savings': savings,
+        }
+
+        pdf = render_to_pdf('mycash/report.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "report.pdf"
+            content = "inline; filename='%s'" % (filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" %(filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")

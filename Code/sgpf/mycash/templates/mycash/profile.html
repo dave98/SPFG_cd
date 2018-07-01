@@ -7,45 +7,53 @@
 -->
 
 {% block body %}
-
-<div class="container">
-  <div class="row">
-  	<div class="col-md-10">
-
-      <div class="panel panel-info">
-            <div class="panel-heading">
-                <h1 class="text-center"><strong>Profile</strong></h1>
-            </div>
-			<div class="panel-body">
-              		<div class="row">
-                        <div class="col-xs-12 col-sm-8">
-                            <h1 class="text-success"><strong>{{ user.name|add:" "|add:user.last_name }}</strong></h1>
-                            <h3><strong>Name: </strong> {{ user.name }} </h3>
-                            <h3><strong>Last Name: </strong> {{ user.last_name }} </h3>
-                            <h3><strong>Email: </strong> {{ user.email }} </h3>
-                            <h3><strong>Phone: </strong> {{ user.phone }} </h3>
-                        </div><!--/col-->
-                        <div class="col-xs-12 col-sm-4 text-center">
-                                <img src="https://galaxy.esn.org/sites/default/files/cards/font-awesome_4-7-0_user_1024_0_00aeef_none.png" alt="" class="center-block img-responsive">
-                        </div><!--/col-->
-
-                        <div class="col-xs-12 col-sm-6">
-                            <h2><strong> 1000 </strong></h2>
-                            <p><small>Current Money</small></p>
-                            <a class="btn btn-primary btn-lg btn-block"> Current Money </a><br>
-                        </div><!--/col-->
-                        <div class="col-xs-12 col-sm-6">
-                            <h2><strong>Profile</strong></h2>
-                            <p><small>Edit Profile</small></p>
-                            <a class="btn btn-success btn-lg btn-block" href="{% url 'mycash:profile-edit' 1 %}"> Edit </a><br>
-                        </div><!--/col-->
-              		</div><!--/row-->
-              </div><!--/panel-body-->
-          </div><!--/panel-->
-
-
-
+<div class="col-sm-12">
+    <div class="col-sm-8">
+        <div class="table-profile">
+            <h2 align="center" class="text-success fa-2x">My Profile</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> Name </td>
+                        <td>{{ user.name }}</td>
+                    </tr>
+                    <tr>
+                        <td> Last Name </td>
+                        <td>{{ user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td> Email </td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td> Nickname </td>
+                        <td>{{ user.nickname }}</td>
+                    </tr>
+                    <tr>
+                        <td> Phone </td>
+                        <td>{{ user.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td> Description </td>
+                        <td>{{ user.description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="{% url 'mycash:upd-user' user.id %}" class="btn btn-primary pull-left" role="button">Edit</a>
+        </div>
     </div>
-  </div>
+    <div class="col-sm-4">
+        <div class="image-profile">
+            <img src="{{ user.photo.url }}" class="img-circle" alt="">
+        </div>
+    </div>
 </div>
 {% endblock %}
+
+<!-- <h1 class="text-success"><strong>{{ user.name|add:" "|add:user.last_name }}</strong></h1> -->

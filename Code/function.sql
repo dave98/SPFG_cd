@@ -11,8 +11,8 @@ begin
 		sum(inc.amount) as amount
 	from mycash_income as inc
 	where inc.user_id = id_us and inc.date >= tmp
-	group by month
-	order by month;
+	group by to_char(inc.date, 'YYYY-MM'), month
+	order by to_char(inc.date, 'YYYY-MM');
 end;
 $$
 language 'plpgsql';
@@ -34,37 +34,6 @@ end;
 $$
 language 'plpgsql';
 
---drop function create_category(varchar, integer);
-create or replace function create_category(name_category varchar, id_us integer)
-	returns void
-as $$ 
-declare
-begin
-	insert into mycash_category(name, create_on, user_id) values(name_category, now(), id_us);
-end;
-$$
-language 'plpgsql';
-
-create or replace function verify_category(name_category varchar, id_us integer)
-	returns boolean
-as $$ 
-declare
-	cnt integer = 0;
-begin
-	select 
-		count(*) into cnt
-	from mycash_category as cat
-  	where cat.name = name_category and cat.user_id = id_us;
-
-	if cnt > 0 then  		
-		return true;
-	else 
-		return false;
-	end if;
-end;
-$$
-language 'plpgsql';
-
 create or replace function delete_account(id_us integer)
 	returns void
 as $$ 
@@ -81,7 +50,13 @@ as $$
 declare
 	income numeric(8,2) = 0;
 	expense numeric(8,2) = 0;
+	ein boolean;
+	eex boolean;
 begin
+
+	select exists(select 0 from mycash_income where user_id=id_us) into ein;
+	select exists(select 0 from mycash_expense where user_id=id_us) into eex;
+
 	select
 		sum(inc.amount) into income
 	from mycash_income as inc
@@ -91,6 +66,14 @@ begin
 		sum(exp.amount) into expense
 	from mycash_expense as exp
 	where exp.user_id = id_us;
+
+	if not ein then  		
+		income = 0;
+	end if;
+
+	if not eex then
+		expense = 0;
+	end if;
 
 	return (income-expense);
 end;

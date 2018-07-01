@@ -8,7 +8,7 @@
 
 {% block savings %}
     <ul class="nav navbar-nav navbar-right horizontal">
-        <li><a href="{% url 'mycash:expense' %}"><i class="fa fa-dollar"></i> Saving: </a></li>
+        <li><a href="{% url 'mycash:expense' %}"><i class="fa fa-dollar"></i> Saving: {{ savings }}</a></li>
     </ul>
 {% endblock %}
 

@@ -8,24 +8,31 @@
 -->
 
 {% block body%}
-<div class="container">
-    <div class="row vertical-offset-100">
-        <div class="col-md-8 col-md-offset-2">
-            <img src="https://cdn4.iconfinder.com/data/icons/silky-icon-user-filled-in/60/users2-2-512.png" class="img-responsive center-block" style="width:35%" alt="Image">
-            <hr>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Sign In</h3>
+<div class="col-sm-12">
+    <div class="col-sm-6">
+        <div class="icon-img">
+            <img src="../../static/mycash/images/icon.png" width="90%">
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <br>
+        <div class="login-form">
+            <form method="post">
+                <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
+                <h4 class="modal-title">Login to Your Account</h4>
+
+                {% csrf_token %}
+                <span class="text-danger small">{{ msg }}</span>
+                {% include 'mycash/form-template.html' %}
+
+                <div class="form-group small clearfix">
+                    <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
                 </div>
-                <div class="panel-body">
-                    <span class="text-danger small">{{ msg }}</span>
-                    <form method="post" class="form-horizontal">
-                        {% csrf_token %}
-                        {% include 'mycash/form-template.html' %}
-                        <input class="btn btn-lg btn-success btn-block" type="submit" name="submit", value="Sign In">
-                    </form>
-                </div>
-            </div>
+                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Sign In">
+            </form>
+            <div class="text-center small">Don't have an account? <a href="{% url 'mycash:sign-up' %}">Sign up</a></div>
         </div>
     </div>
 </div>

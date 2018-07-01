@@ -1,0 +1,126 @@
+.form-control {
+    box-shadow: none;
+    border-color: #ddd;
+}
+
+.login-form {
+    width: 70%;
+    margin: 0 auto;
+    padding: 30px 0;
+}
+.login-form form {
+    color: #434343;
+    border-radius: 1px;
+    margin-bottom: 10px;
+    background: #fff;
+    border: 1px solid #f3f3f3;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+.login-form h4 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+.login-form .form-control, .login-form .btn {
+    min-height: 40px;
+    border-radius: 2px;
+    transition: all 0.5s;
+}
+
+.login-form .small {
+    font-size: 13px;
+}
+.login-form a {
+    color: #4aba70;
+}
+
+/* Profile sidebar */
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  width: 55%;
+  height: 55%;
+}
+
+.profile-usermenu {
+  margin-top: 20px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #5b9bd1;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+  background-color: #fafcfd;
+  color: #079FC8;
+}
+
+.profile-usermenu ul li.active {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
+}
+
+/* table */
+.table-profile {
+    border-radius: 5px;
+    width: 95%;
+    margin: 0px auto;
+    float: none;
+}
+
+.table-profile-edit {
+    border-radius: 5px;
+    width: 70%;
+    margin: 0px auto;
+    float: none;
+}
+
+/* profile form table */
+.table.no-border tr td, .table.no-border tr th {
+    border-width: 0;
+}
+
+.image-profile img {
+    float: none;
+    width: 100%;
+    margin: 0 auto;
+    padding: 100px 0;
+}
+
+/* Footer */
+footer{
+    background: #000000;
+    color: #FFFFFF;
+    clear: both;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 1% 0px;
+}

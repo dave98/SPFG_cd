@@ -32,7 +32,6 @@ class PerBaseUserManager(BaseUserManager):
 # MyUser class [User]
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=50, unique=True)  # user email
-
     nickname = models.CharField(max_length=20, validators=[
         RegexValidator(regex='^[\w\s]*$', message='Nickname must be Alphanumeric', code='invalid_nickname')])
 
@@ -46,6 +45,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         RegexValidator(regex='^[0-9]*$', message='Nickname must be Numeric', code='invalid_phone')])        # user phone
 
     description = models.TextField(blank=True, null=True)
+    photo = models.ImageField(upload_to='profile', blank=True, default='profile/user.png')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -75,6 +75,11 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('mycash:detail', kwargs={'pk': self.pk})
 
+    @classmethod
+    def create(cls, name, user):
+        category = cls(name=name, user=user)
+        return category
+
     def __str__(self):
         return self.name
 
@@ -88,6 +93,9 @@ class Income(models.Model):
         RegexValidator(regex='^[\w\s]*$', message='Name must be Alphanumeric', code='invalid_name'),
     ])
     date = models.DateField(default=datetime.now)
+
+    def get_income(self):
+        return self.recipephotos_set.filter(type="3")
 
 
 # Expense class that will be mapped in the database as a table. [mycash_expense]
@@ -114,5 +122,6 @@ class Goal(models.Model):
     name = models.CharField(max_length=20, validators=[
         RegexValidator(regex='^[\w\s]*$', message='Name must be Alphanumeric', code='invalid_name'),
     ])
-    percentage = models.DecimalField(max_digits=4, decimal_places=2, validators=[MinValueValidator(0.001)])
+    percentage = models.DecimalField(max_digits=4, decimal_places=2, validators=[MinValueValidator(0.00)])
+    adv_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.001)])

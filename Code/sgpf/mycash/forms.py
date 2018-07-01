@@ -1,5 +1,6 @@
 from django import forms
 from .models import Income, Expense, MyUser, Category, TechnicalRequest, Goal
+from django.contrib.auth.forms import UserChangeForm
 
 """ 
     creation of the ModelForm forms, this is super useful to update,
@@ -30,41 +31,47 @@ class MyUserForm(forms.ModelForm):
             'email': forms.TextInput(attrs={'class': 'form-control'}),          # email field of Class User
         }
 
-    """ def clean_email(self):
+    def clean_email(self):
         email = self.cleaned_data.get('email')
-        email_base, provider = email.split('@')
-        domain, extension = provider.split('.')
 
-        if not domain == 'mycash':
-            raise forms.ValidationError("Please make sure you use your mycash email.")
-        if not extension == "com":
-            raise forms.ValidationError("Please use a valid .com in email address.")
-        return email """
+        t = False
+        for c in email:
+            if c == '@':
+                t = True
+
+        if t:
+            email_base, provider = email.split('@')
+            if not provider == 'mycash.com':
+                raise forms.ValidationError("Please make sure you use your @mycash.com email.")
+            return email
+        else:
+            raise forms.ValidationError("Need to enter @mycash.com!!")
 
 
 # Class UserForm, Use to Create Model User [Objects]data_attrs=('slug',),
-class MyUserUpdateForm(forms.ModelForm):
+class MyUserUpdateForm(UserChangeForm):
     class Meta:
         model = MyUser
-        fields = ['name', 'last_name', 'nickname', 'email', 'phone', 'password']
+        fields = ['name', 'last_name', 'nickname', 'phone', 'description', 'photo', 'password']
 
         # The fields present in the form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),           # name field of Class User
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),      # last_name field of Class User
-            'nickname': forms.TextInput(attrs={'class': 'form-control'}),  # name field of Class User
-            'email': forms.TextInput(attrs={'class': 'form-control'}),  # email field of Class User
+            'nickname': forms.TextInput(attrs={'class': 'form-control'}),       # name field of Class User
             'phone': forms.TextInput(attrs={'class': 'form-control'}),          # phone field of Class User
-            'password': forms.PasswordInput(attrs={'placeholder': 'Enter Password To Update!!', 'class': 'form-control'}),  # password field of Class User
+            'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 50, 'rows': 5}),
+            'photo': forms.FileInput(attrs={'class': 'form-control'}),  # phone field of Class User
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),          # phone field of Class User
         }
 
 
 # Only form, to capture the data, through POST-GET methods
 # It does not represent a model
 class SignInForm(forms.Form):
-    email = forms.CharField(required=True, label='email',
+    email = forms.CharField(required=True, label='Email',
                             widget=(forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'})))
-    password = forms.CharField(required=True, label='password',
+    password = forms.CharField(required=True, label='Password',
                                widget=(forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'})))
 
 

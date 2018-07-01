@@ -3,6 +3,8 @@
 <!-- Trigger the modal with a button -->
 <div class="btn-group">
     <button onclick="return open_modal('{% url 'mycash:add-category' %}')" type="button" class="btn btn-primary">Add Category</button>
+    <a href="{% url 'mycash:add-income' %}" class="btn btn-primary" role="button">Add Income</a>
+    <a href="{% url 'mycash:add-expense' %}" class="btn btn-primary" role="button">Add Expense</a>
     <button onclick="return open_modal('{% url 'mycash:add-goal' %}')" type="button" class="btn btn-primary">Add Goal</button>
     <button onclick="return open_modal('{% url 'mycash:goal' %}')" type="button" class="btn btn-primary">Show Goals</button>
 

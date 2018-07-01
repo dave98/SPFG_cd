@@ -12,16 +12,20 @@ Presents NavBar and SideBar - html base for all others
 <html>
 <head>
     <meta charset="UTF-8">
-	<title>{% block title %}MyCash{% endblock %}</title>
 
+	<title>{% block title %}MyCash{% endblock %}</title>
 	<!-- loads path static file -->
 	{% load staticfiles %}
+    <link rel="icon" type="image/png" href="{% static 'mycash/images/favicon.png' %}">
 
     <!-- Boostrap -->
 	<link rel="stylesheet" type="text/css" href="{% static 'mycash/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'mycash/css/jquery-ui.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'mycash/css/jquery.dataTables.min.css'  %}"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Satisfy" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="{% static 'mycash/css/base.css'  %}" type="text/css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<!-- Ajax -->
     <script type="text/javascript" src="{% static 'mycash/js/jquery.js' %}" charset="UTF-8"></script>
@@ -29,8 +33,6 @@ Presents NavBar and SideBar - html base for all others
     <script type="text/javascript" src="{% static 'mycash/js/jquery-ui.js' %}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script type="text/javascript" src="{% static 'mycash/js/jquery.dataTables.min.js' %}"></script>
-
-
 </head>
 
 <body>
@@ -44,23 +46,16 @@ Presents NavBar and SideBar - html base for all others
 						<!-- Navbar brand (Brainiac) y botón colapsable -->
 						<div class="navbar-header">
 							<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                          </button>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
 							<a class="navbar-brand" href="{% url 'mycash:overview' %}">MyCash</a>
 						</div>
 					</div>
 
 					<div class="col-md-10">
 						<div class="navbar-collapse collapse" id="navbar-main">
-
-							<!-- Navbar botones -->
-							<ul class="nav navbar-nav horizontal mar-left">
-								<li><a href="#">We are?</a></li>
-								<li><a href="#">Contact</a></li>
-							</ul>
-
                             <ul class="nav navbar-nav navbar-right horizontal">
 								<li><a href="{% url 'mycash:log-out' %}"><i class="glyphicon glyphicon-log-out"></i>  Log Out</a></li>
 							</ul>
@@ -78,28 +73,29 @@ Presents NavBar and SideBar - html base for all others
         </nav>
     </div>
 
-    <section class="container-full">
+    <section class="container-fluid">
+        <div class="row profile">
+            <div class="col-md-2">
+                <div class="profile-sidebar">
+                    <div class="profile-userpic">
+                        <img src="../../static/mycash/images/icon.png" class="img-responsive" alt="">
+                    </div>
 
-		<!-- Main page -->
-		<div class="row" id="full-page">
-			<!-- Sidebar -->
-			<div class="col-md-2">
-                <nav class="profile-menu">
-                    <ul class="nav navbar vertical">
-						<li><a href="{% url 'mycash:profile' %}"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
-                        <li><a href="{% url 'mycash:overview' %}"><i class="glyphicon glyphicon-th"></i> Overview</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-align-justify"></i> Historical Data</a></li>
-                        <li><a href="{% url 'mycash:send-technical' %}"><i class="glyphicon glyphicon-envelope"></i> Technical Request</a></li>
-                        <li><a href="{% url 'mycash:expense' %}"><i class="glyphicon glyphicon-th-list"></i> Expense List</a></li>
-                        <li><a href="{% url 'mycash:income' %}"><i class="glyphicon glyphicon-th-list"></i> Income List</a></li>
-                        <li><a href="{% url 'mycash:del-account' %}"><i class="glyphicon glyphicon-remove"></i> Delete Account</a></li>
-                    </ul>
-                </nav>
-			</div>
-
-			<!-- Content - Data Box -->
-			<div class="col-md-10">
-				{% block button %}
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li class="active"><a href="{% url 'mycash:overview' %}"><i class="glyphicon glyphicon-home"></i> Overview</a></li>
+                            <li><a href="{% url 'mycash:profile' %}"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-align-justify"></i> Historical Data</a></li>
+                            <li><a href="{% url 'mycash:send-technical' %}"><i class="glyphicon glyphicon-envelope"></i> Technical Request</a></li>
+                            <li><a href="{% url 'mycash:expense' %}"><i class="glyphicon glyphicon-th-list"></i> Expense List</a></li>
+                            <li><a href="{% url 'mycash:income' %}"><i class="glyphicon glyphicon-th-list"></i> Income List</a></li>
+                            <li><a href="{% url 'mycash:pdf' %}"><i class="glyphicon glyphicon-download-alt"></i> Download Report</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                {% block button %}
                 {% endblock %}
 
 				{% block chart %}
@@ -118,9 +114,11 @@ Presents NavBar and SideBar - html base for all others
 
                     start_search()
                 </script>
-                <!-- Chart -->
-			</div>
-         </div>
+            </div>
+        </div>
 	</section>
+    <footer>
+      <p>MyCash [Cerpa - Mamani -Maldonado - Zevallos]</p>
+    </footer>
 </body>
 </html>

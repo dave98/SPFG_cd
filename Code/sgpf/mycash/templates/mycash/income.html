@@ -1,7 +1,8 @@
 {% extends 'mycash/base.html' %}
+{% block title %}Income Details{% endblock %}
 
 {% block body %}
-<h2 align="center" class="text-success fa-2x">Incomes</h2>
+<h2 align="center" class="text-success fa-2x">Incomes Total: {{ tincome.amount__sum }}</h2>
 
 <a href="{% url 'mycash:add-income' %}" class="btn btn-primary" role="button">Add Income</a>
 <br><br>
@@ -30,7 +31,7 @@
                         <form action="{% url 'mycash:del-income' income.id %}" method="post" style="display: inline;">
                             {% csrf_token %}
                             <input type="hidden", name="income_id" value="{{ income.id }}">
-                            <button type="submit" class="btn btn-default btn-sm">
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </form>

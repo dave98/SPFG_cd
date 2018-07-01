@@ -26,20 +26,9 @@ class DB:
             return cursor.fetchall()
 
     @staticmethod
-    def create_category(name, id_us):
-        with connection.cursor() as cursor:
-            cursor.execute("select * from create_category(%s,%s)", [name, id_us])
-
-    @staticmethod
     def delete_account(id_us):
         with connection.cursor() as cursor:
             cursor.execute("select * from delete_account(%s)", [id_us])
-
-    @staticmethod
-    def verify_category(name, id_us):
-        with connection.cursor() as cursor:
-            cursor.execute("select * from verify_category(%s,%s)", [name, id_us])
-            return cursor.fetchall()[0][0]
 
     @staticmethod
     def savings_per_user(id_us):

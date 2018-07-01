@@ -1,0 +1,29 @@
+{% extends 'mycash/base.html' %}
+{% block title %}Manage Expense{% endblock %}
+
+<!--
+    UserForm Created in the forms, this based on ModelForm, what it does is map the
+    fields with the attributes of the class, and thus save it, update it and
+    delete it.
+        [CROUP]
+-->
+
+{% block body %}
+<div class="table-responsive table-profile-edit">
+    <h2 align="center" class="text-success fa-2x">My Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table no-border">
+            <tbody>
+                {% for field in form %}
+                    <tr>
+                        <td> {{ field.label_tag }} </td>
+                        <td>{{ field }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-success btn-block btn-lg" value="Save">
+    </form>
+</div>
+{% endblock %}
