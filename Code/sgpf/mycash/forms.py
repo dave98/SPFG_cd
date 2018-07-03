@@ -60,7 +60,7 @@ class MyUserUpdateForm(UserChangeForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),      # last_name field of Class User
             'nickname': forms.TextInput(attrs={'class': 'form-control'}),       # name field of Class User
             'phone': forms.TextInput(attrs={'class': 'form-control'}),          # phone field of Class User
-            'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 50, 'rows': 5}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'cols': 20, 'rows': 3}),
             'photo': forms.FileInput(attrs={'class': 'form-control'}),  # phone field of Class User
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),          # phone field of Class User
         }

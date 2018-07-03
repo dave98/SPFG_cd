@@ -115,8 +115,8 @@
 
 /* Footer */
 footer{
-    background: #000000;
-    color: #FFFFFF;
+    background: black;
+    color: white;
     clear: both;
     position: fixed;
     bottom: 0;

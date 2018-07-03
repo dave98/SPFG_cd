@@ -80,3 +80,6 @@ end;
 $$
 language 'plpgsql';
 */
+
+-- sudo pip install xhtml2pdf
+-- 

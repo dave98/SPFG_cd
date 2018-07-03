@@ -43,4 +43,6 @@ urlpatterns = [
     url(r'^api/chart/data', login_required(views.ChartData.as_view()), name='chart-data'),               # /mycash/api/chart/data/
 
     url(r'^pdf/', login_required(views.GeneratePDF.as_view()), name='pdf'),
+    url(r'^historical/', login_required(views.HistoricalView.as_view()), name='historical'),
+    url(r'^api/historical/data/', login_required(views.HistoricalData.as_view()), name='historical-data'),
 ]

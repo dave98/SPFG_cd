@@ -4,23 +4,22 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import HttpResponse
 from django.views import generic
-from django.db.models import Sum, Q
-from .utils import render_to_pdf
+from .utils import render_to_pdf, Day
 
 from django.core.urlresolvers import reverse, reverse_lazy
 from .models import Income, Category, Expense, MyUser, Goal
 from .forms import IncomeForm, ExpenseForm, MyUserUpdateForm, MyUserForm, SignInForm,\
                     ExpenseUpdateForm, IncomeUpdateForm, CategoryForm, TechnicalRequestForm,\
                     GoalForm
+
 from .sql import DB
 from datetime import datetime
+from django.db.models import Func, Sum, Q
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.template.loader import get_template
 
 """
-    Class that communicates the templates with the objects in the system
     Class that communicates the templates with the objects in the system, 
     Each view what it does is redirect to its respective template, whether 
     they are co-parameters or without these.
@@ -140,60 +139,10 @@ class UserUpdate(UpdateView):
         return reverse('mycash:profile')
 
 
-# Class ChartView only use to redirect and see Charts
-class ChartView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'mycash/chart.html', {'customers': 10})
-
-
-# Class BudgetView only use to redirect and see Budget
-class HistoricalView(View):
-    def get(self, request):
-        return render(request, 'mycash/expense.html')
-
-
 # Class ProfileView only use to redirect and see Profile
 class ProfileView(View):
     def get(self, request):
         return render(request, 'mycash/profile.html', {'user': MyUser.objects.get(pk=request.session['id'])})
-
-
-# Class ChartData to see Default Data Chart
-# Data chart based on the days of week, it shows the expenses
-# and incomes entered.
-class ChartData(APIView):
-    authentication_classes = []
-    permission_classes = []
-
-    def get(self, request, format=None):
-        income_label = []
-        expense_label = []
-        income_amount = []
-        expense_amount = []
-
-        nd = 7
-        nm = 7
-
-        db = DB()
-
-        # Data per day on income and expenses to be visualized visually
-        incomes = db.income_month(request.session['id'], nm)
-        expenses = db.expense_day(request.session['id'], nd)
-        for inc in incomes:
-            income_label.append(str(inc[0]))
-            income_amount.append(float(inc[1]))
-
-        for exp in expenses:
-            expense_label.append(str(exp[0]))
-            expense_amount.append(float(exp[1]))
-
-        data = {
-            "income_label": income_label,
-            "expense_label": expense_label,
-            "income_amount": income_amount,
-            "expense_amount": expense_amount,
-        }
-        return Response(data)
 
 
 # List All Goal for each User   [ID]
@@ -535,3 +484,72 @@ class GeneratePDF(View):
             response['Content-Disposition'] = content
             return response
         return HttpResponse("Not found")
+
+
+# Class ChartData to see Default Data Chart
+# Data chart based on the days of week, it shows the expenses
+# and incomes entered.
+class ChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        id_us = request.session['id']
+        income_label = []
+        expense_label = []
+        income_amount = []
+        expense_amount = []
+
+        nd = 7
+        nm = 7
+
+        db = DB()
+
+        # Data per day on income and expenses to be visualized visually
+        incomes = db.income_month(id_us, nm)
+        expenses = db.expense_day(id_us, nd)
+        for inc in incomes:
+            income_label.append(str(inc[0]))
+            income_amount.append(float(inc[1]))
+
+        for exp in expenses:
+            expense_label.append(str(exp[0]))
+            expense_amount.append(float(exp[1]))
+
+        data = {
+            "income_label": income_label,
+            "expense_label": expense_label,
+            "income_amount": income_amount,
+            "expense_amount": expense_amount,
+        }
+        return Response(data)
+
+
+# Class ChartView only use to redirect and see Charts
+class ChartView(View):
+    def get(self):
+        return render(self.request, 'mycash/chart.html')
+
+
+class HistoricalData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        # month = int(request.GET.get('search_month'))+1
+        # year = request.GET.get('search_year')
+        month = '7'
+        year = '2018'
+        id_us = request.session['id']
+
+        days = Expense.objects.filter(user_id=id_us, date__year=year, date__month=month).annotate(day=Day('date')).values('day')\
+            .annotate(amount=Sum('amount'))
+
+        data = {"days": days}
+        return Response(data)
+
+
+# Class BudgetView only use to redirect and see Budget
+class HistoricalView(View):
+    def get(self, request):
+        return render(request, 'mycash/historical.html')

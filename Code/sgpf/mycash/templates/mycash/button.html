@@ -1,20 +1,26 @@
 <!-- Modal -->
 
 <!-- Trigger the modal with a button -->
-<div class="btn-group">
-    <button onclick="return open_modal('{% url 'mycash:add-category' %}')" type="button" class="btn btn-primary">Add Category</button>
-    <a href="{% url 'mycash:add-income' %}" class="btn btn-primary" role="button">Add Income</a>
-    <a href="{% url 'mycash:add-expense' %}" class="btn btn-primary" role="button">Add Expense</a>
-    <button onclick="return open_modal('{% url 'mycash:add-goal' %}')" type="button" class="btn btn-primary">Add Goal</button>
-    <button onclick="return open_modal('{% url 'mycash:goal' %}')" type="button" class="btn btn-primary">Show Goals</button>
-
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Chart</button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="{% url 'mycash:overview' %}">Pie Chart</a></li>
-            <li><a href="{% url 'mycash:overview' %}">Bar Chart</a></li>
-        </ul>
+<div>
+    <div class="pull-left" >
+        <div class="btn-group">
+            <button onclick="return open_modal('{% url 'mycash:add-category' %}')" type="button" class="btn btn-primary">Add Category</button>
+            <a href="{% url 'mycash:add-income' %}" class="btn btn-primary" role="button">Add Income</a>
+            <a href="{% url 'mycash:add-expense' %}" class="btn btn-primary" role="button">Add Expense</a>
+            <button onclick="return open_modal('{% url 'mycash:add-goal' %}')" type="button" class="btn btn-primary">Add Goal</button>
+            <button onclick="return open_modal('{% url 'mycash:goal' %}')" type="button" class="btn btn-primary">Show Goals</button>
+        </div>
     </div>
+    <div class="pull-right">
+        <form name="chart" method="GET">
+            <select name="type_chart" onchange="typeChart(this);" class="btn btn-primary">
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+                <option value="pie">Pie</option>
+            </select>
+        </form>
+    </div>
+    <div class="clearfix"></div>
 </div>
 <br>
 
